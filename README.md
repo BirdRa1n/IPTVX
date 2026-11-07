@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="resources/icons/iptvx-256.png" alt="IPTVX icon" width="112">
+<img src="resources/icons/hicolor/iptvx-256.png" alt="IPTVX icon" width="112">
 
 # IPTVX
 

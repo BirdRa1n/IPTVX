@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.birdra1n.iptvx</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>IPTVX</name>
+  <summary>Fast, memory-frugal IPTV player</summary>
+  <summary xml:lang="pt_BR">Player de IPTV rápido e leve</summary>
+  <description>
+    <p>
+      IPTVX plays your own M3U/M3U8 playlists and Xtream Codes accounts with a
+      modern interface in dark and light appearances, a command palette and a
+      floating mini player. IPTVX is a player: it does not provide channels.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.birdra1n.iptvx.desktop</launchable>
+  <url type="homepage">https://github.com/BirdRa1n/IPTVX</url>
+  <url type="bugtracker">https://github.com/BirdRa1n/IPTVX/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/BirdRa1n/IPTVX/main/docs/screenshots/live-dark.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+</component>

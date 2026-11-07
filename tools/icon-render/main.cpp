@@ -5,8 +5,8 @@
 //
 // Produces in <out-dir>:
 //   iptvx.iconset/   macOS iconset (convert with `iconutil -c icns`)
-//   iptvx.ico        Windows icon (PNG-compressed entries, 16–256 px)
-//   iptvx-<n>.png    Linux / in-app sizes (64, 128, 256, 512)
+//   iptvx.ico        Windows icon (16–256 px; BMP ≤ 48 px, PNG above)
+//   iptvx-<n>.png    Linux hicolor sizes (16–512)
 
 #include <QBuffer>
 #include <QCoreApplication>
@@ -43,14 +43,54 @@ QByteArray png(const QImage &image)
     return bytes;
 }
 
-// ICO container with PNG payloads (supported since Windows Vista).
+// Classic DIB payload (BITMAPINFOHEADER + bottom-up BGRA + AND mask), which
+// Microsoft recommends for icon entries up to 48 px; larger entries use PNG.
+QByteArray dib(const QImage &source)
+{
+    const QImage image = source.convertToFormat(QImage::Format_ARGB32); // straight alpha
+    const int w = image.width();
+    const int h = image.height();
+    QByteArray out;
+    auto put16 = [&out](quint16 v) { v = qToLittleEndian(v); out.append(reinterpret_cast<const char *>(&v), 2); };
+    auto put32 = [&out](quint32 v) { v = qToLittleEndian(v); out.append(reinterpret_cast<const char *>(&v), 4); };
+
+    const int maskStride = ((w + 31) / 32) * 4;
+    put32(40);                     // header size
+    put32(quint32(w));
+    put32(quint32(h * 2));         // XOR + AND masks
+    put16(1);                      // planes
+    put16(32);                     // bpp
+    put32(0);                      // BI_RGB
+    put32(quint32(w * h * 4 + maskStride * h));
+    put32(0); put32(0); put32(0); put32(0);
+
+    for (int y = h - 1; y >= 0; --y) {
+        const auto *line = reinterpret_cast<const QRgb *>(image.constScanLine(y));
+        for (int x = 0; x < w; ++x) {
+            const QRgb px = line[x];
+            out.append(char(qBlue(px))).append(char(qGreen(px))).append(char(qRed(px))).append(char(qAlpha(px)));
+        }
+    }
+    // AND mask: 1 = transparent. Alpha already encodes it; keep it consistent.
+    for (int y = h - 1; y >= 0; --y) {
+        QByteArray row(maskStride, 0);
+        const auto *line = reinterpret_cast<const QRgb *>(image.constScanLine(y));
+        for (int x = 0; x < w; ++x)
+            if (qAlpha(line[x]) == 0)
+                row[x / 8] = char(row[x / 8] | (0x80 >> (x % 8)));
+        out.append(row);
+    }
+    return out;
+}
+
+// Windows icon: every size the shell uses at 100–200 % scaling.
 bool writeIco(const QString &path, QSvgRenderer &svg)
 {
-    const int sizes[] = { 16, 24, 32, 48, 64, 128, 256 };
+    const int sizes[] = { 16, 20, 24, 32, 40, 48, 64, 96, 128, 256 };
     const int count = int(std::size(sizes));
     QList<QByteArray> payloads;
     for (int s : sizes)
-        payloads.append(png(render(svg, s)));
+        payloads.append(s <= 48 ? dib(render(svg, s)) : png(render(svg, s)));
 
     QByteArray out;
     auto put16 = [&out](quint16 v) { v = qToLittleEndian(v); out.append(reinterpret_cast<const char *>(&v), 2); };
@@ -102,7 +142,8 @@ int main(int argc, char *argv[])
         render(svg, base).save(out.filePath(u"iptvx.iconset/icon_%1x%1.png"_s.arg(base)));
         render(svg, base * 2).save(out.filePath(u"iptvx.iconset/icon_%1x%1@2x.png"_s.arg(base)));
     }
-    for (int size : { 64, 128, 256, 512 })
+    // freedesktop hicolor sizes (Linux) — also used as the window icon.
+    for (int size : { 16, 24, 32, 48, 64, 128, 256, 512 })
         render(svg, size).save(out.filePath(u"iptvx-%1.png"_s.arg(size)));
 
     if (!writeIco(out.filePath(u"iptvx.ico"_s), svg)) {

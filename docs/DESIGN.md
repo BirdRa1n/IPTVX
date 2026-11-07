@@ -110,7 +110,7 @@ macOS icon grid (824 px body on a 1024 px canvas) with a lime screen and
 play mark. Platform files (`iptvx.icns`, `iptvx.ico`, PNGs) are generated
 from it with `cmake -DIPTVX_BUILD_TOOLS=ON` and `--target icons`.
 
-<img src="../resources/icons/iptvx-256.png" alt="IPTVX app icon" width="128">
+<img src="../resources/icons/hicolor/iptvx-256.png" alt="IPTVX app icon" width="128">
 
 ## Window chrome (macOS)
 
