@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 
+# Oldest macOS the app runs on. Must be set before project(); matches the
+# minimum supported by the Qt release we build with (Qt 6.12: macOS 14.4).
+# Without it the binary would require the SDK's macOS version.
+set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version")
+
 project(IPTVX
     VERSION 0.1.0
     DESCRIPTION "A fast, memory-efficient IPTV player built with Qt and C++"
