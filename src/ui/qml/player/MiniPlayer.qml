@@ -94,6 +94,9 @@ Item {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             height: 34
+            // Match the frame's rounded bottom corners.
+            bottomLeftRadius: Theme.radiusLarge
+            bottomRightRadius: Theme.radiusLarge
             gradient: Gradient {
                 GradientStop { position: 0; color: Qt.rgba(0, 0, 0, 0) }
                 GradientStop { position: 1; color: Qt.rgba(0, 0, 0, 0.6) }
