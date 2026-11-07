@@ -55,6 +55,27 @@ Rectangle {
         font: Theme.body
     }
 
+    // Radio / audio-only streams (and streams still connecting) have no
+    // picture: show the channel identity instead of an empty black area.
+    Column {
+        anchors.centerIn: parent
+        spacing: Theme.space3
+        visible: root.hasSource && !root.player.hasVideo && root.player.error === MediaPlayer.NoError
+        ChannelLogo {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 96; height: 96
+            radius: Theme.radiusXL + 6
+            name: root.title
+            source: Session.nowPlaying ? Session.nowPlaying.logo : ""
+        }
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: root.title
+            font: Theme.title
+            color: Theme.videoText
+        }
+    }
+
     BusyIndicator {
         anchors.centerIn: parent
         running: root.loading
