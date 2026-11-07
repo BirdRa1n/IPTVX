@@ -54,6 +54,9 @@ Environment variables read by `src/app/DevTools.cpp`:
 | `IPTVX_PLAY=<n>` | Select channel number `n` once the catalog loads (autoplay check) |
 | `IPTVX_SCREENSHOT=<out.png>` | Save a window capture and quit (implies sandbox) |
 | `IPTVX_SCREENSHOT_DELAY=<ms>` | Delay before the capture (default 2500) |
+| `IPTVX_SCREENSHOT_NATIVE=1` | macOS: capture with the native frame (`screencapture -l`, needs Screen Recording; otherwise a composited frame) |
+| `IPTVX_SHEET=add` | Open the add-source sheet |
+| `IPTVX_WINDOW_SIZE=<W>x<H>` | Resize the window before capturing |
 
 Example — capture the Live TV page in light mode:
 
@@ -62,7 +65,8 @@ IPTVX_SEED_PLAYLIST=tests/data/sample.m3u IPTVX_PAGE=live IPTVX_APPEARANCE=light
 IPTVX_SCREENSHOT=/tmp/live.png ./build/debug/src/app/IPTVX.app/Contents/MacOS/IPTVX
 ```
 
-Use this to verify UI changes visually (it is how `docs/assets` is produced).
+Use this to verify UI changes visually. `tools/screenshots.sh` regenerates the
+whole documentation gallery ([SCREENSHOTS.md](SCREENSHOTS.md)).
 
 ## Translations
 

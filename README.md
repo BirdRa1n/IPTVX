@@ -12,7 +12,7 @@
 ![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-<img src="docs/assets/home-dark.png" alt="IPTVX dashboard in dark mode" width="860">
+<img src="docs/screenshots/live-dark.png" alt="IPTVX Live TV in dark mode" width="900">
 
 </div>
 
@@ -37,11 +37,13 @@
 
 ## 📸 Screenshots
 
-| Live TV — dark | Live TV — light |
+| Dashboard — light | Mini player — light |
 |---|---|
-| <img src="docs/assets/live-dark.png" alt="Live TV with channel list and player, dark"> | <img src="docs/assets/live-light.png" alt="Live TV with channel list and player, light"> |
-| **Dashboard — light** | **Command palette — dark** |
-| <img src="docs/assets/home-light.png" alt="Dashboard in light mode"> | <img src="docs/assets/palette-dark.png" alt="Command palette in dark mode"> |
+| <img src="docs/screenshots/dashboard-light.png" alt="Dashboard in light mode"> | <img src="docs/screenshots/mini-player-light.png" alt="Mini player over the dashboard"> |
+| **Command palette — dark** | **Add a source — light** |
+| <img src="docs/screenshots/command-palette-dark.png" alt="Command palette in dark mode"> | <img src="docs/screenshots/add-source-light.png" alt="Add source sheet in light mode"> |
+
+**[See the full gallery →](docs/SCREENSHOTS.md)**
 
 ## 🚀 Getting started
 
@@ -107,6 +109,7 @@ IPTVX/
 | [Memory strategy](docs/MEMORY.md) | How IPTVX keeps its footprint low, rules for new code |
 | [Design system](docs/DESIGN.md) | Workspace tokens (dark & light), components, motion, explored concepts |
 | [Development](docs/DEVELOPMENT.md) | Building on each OS, presets, testing, dev mode, i18n |
+| [Screenshots](docs/SCREENSHOTS.md) | Gallery of every screen in dark and light |
 | [Roadmap](docs/ROADMAP.md) | Feature parity plan with established IPTV players |
 | [Contributing](CONTRIBUTING.md) | Workflow, commit style, code style |
 | [AGENTS.md](AGENTS.md) | Rules and entry points for AI coding agents |

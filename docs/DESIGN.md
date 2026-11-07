@@ -6,7 +6,7 @@ accent, a compact icon rail and a keyboard-first command palette — in
 
 | Dark | Light |
 |---|---|
-| <img src="assets/live-dark.png" alt="Live TV, dark"> | <img src="assets/live-light.png" alt="Live TV, light"> |
+| <img src="screenshots/live-dark.png" alt="Live TV, dark"> | <img src="screenshots/live-light.png" alt="Live TV, light"> |
 
 ## Concepts explored
 
@@ -94,7 +94,7 @@ Platform font (SF Pro / Segoe UI / desktop font) — no font files shipped.
 
 ## Mini player (in-app picture-in-picture)
 
-<img src="assets/mini-player-dark.png" alt="Mini player over Settings" width="640">
+<img src="screenshots/mini-player-dark.png" alt="Mini player over Settings" width="640">
 
 When a channel is playing and the user leaves Live TV, a 336 × 189 mini
 player springs in at a corner of the content area and playback continues.

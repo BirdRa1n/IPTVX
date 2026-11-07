@@ -1,0 +1,71 @@
+#EXTM3U url-tvg="https://epg.example.com/guide.xml"
+#EXTINF:-1 tvg-id="news-one-hd" group-title="News",News One HD
+https://stream.example.com/live/news-one-hd.m3u8
+#EXTINF:-1 tvg-id="world-report-24" group-title="News",World Report 24
+https://stream.example.com/live/world-report-24.m3u8
+#EXTINF:-1 tvg-id="business-today" group-title="News",Business Today
+https://stream.example.com/live/business-today.m3u8
+#EXTINF:-1 tvg-id="morning-desk" group-title="News",Morning Desk
+https://stream.example.com/live/morning-desk.m3u8
+#EXTINF:-1 tvg-id="city-news" group-title="News",City News
+https://stream.example.com/live/city-news.m3u8
+#EXTINF:-1 tvg-id="global-headlines" group-title="News",Global Headlines
+https://stream.example.com/live/global-headlines.m3u8
+#EXTINF:-1 tvg-id="sport-plus" group-title="Sports",Sport Plus
+https://stream.example.com/live/sport-plus.m3u8
+#EXTINF:-1 tvg-id="arena-live" group-title="Sports",Arena Live
+https://stream.example.com/live/arena-live.m3u8
+#EXTINF:-1 tvg-id="racing-channel" group-title="Sports",Racing Channel
+https://stream.example.com/live/racing-channel.m3u8
+#EXTINF:-1 tvg-id="tennis-world" group-title="Sports",Tennis World
+https://stream.example.com/live/tennis-world.m3u8
+#EXTINF:-1 tvg-id="extreme-action" group-title="Sports",Extreme Action
+https://stream.example.com/live/extreme-action.m3u8
+#EXTINF:-1 tvg-id="golf-daily" group-title="Sports",Golf Daily
+https://stream.example.com/live/golf-daily.m3u8
+#EXTINF:-1 tvg-id="cinema-now" group-title="Movies",Cinema Now
+https://stream.example.com/live/cinema-now.m3u8
+#EXTINF:-1 tvg-id="classic-films" group-title="Movies",Classic Films
+https://stream.example.com/live/classic-films.m3u8
+#EXTINF:-1 tvg-id="action-max" group-title="Movies",Action Max
+https://stream.example.com/live/action-max.m3u8
+#EXTINF:-1 tvg-id="comedy-central-hall" group-title="Movies",Comedy Central Hall
+https://stream.example.com/live/comedy-central-hall.m3u8
+#EXTINF:-1 tvg-id="drama-premiere" group-title="Movies",Drama Premiere
+https://stream.example.com/live/drama-premiere.m3u8
+#EXTINF:-1 tvg-id="kids-zone" group-title="Kids",Kids Zone
+https://stream.example.com/live/kids-zone.m3u8
+#EXTINF:-1 tvg-id="cartoon-planet" group-title="Kids",Cartoon Planet
+https://stream.example.com/live/cartoon-planet.m3u8
+#EXTINF:-1 tvg-id="junior-learning" group-title="Kids",Junior Learning
+https://stream.example.com/live/junior-learning.m3u8
+#EXTINF:-1 tvg-id="toon-theatre" group-title="Kids",Toon Theatre
+https://stream.example.com/live/toon-theatre.m3u8
+#EXTINF:-1 tvg-id="docu-channel" group-title="Documentary",Docu Channel
+https://stream.example.com/live/docu-channel.m3u8
+#EXTINF:-1 tvg-id="nature-wild" group-title="Documentary",Nature Wild
+https://stream.example.com/live/nature-wild.m3u8
+#EXTINF:-1 tvg-id="history-vault" group-title="Documentary",History Vault
+https://stream.example.com/live/history-vault.m3u8
+#EXTINF:-1 tvg-id="science-lab" group-title="Documentary",Science Lab
+https://stream.example.com/live/science-lab.m3u8
+#EXTINF:-1 tvg-id="ocean-worlds-tv" group-title="Documentary",Ocean Worlds TV
+https://stream.example.com/live/ocean-worlds-tv.m3u8
+#EXTINF:-1 tvg-id="music-live" group-title="Music",Music Live
+https://stream.example.com/live/music-live.m3u8
+#EXTINF:-1 tvg-id="jazz-lounge" group-title="Music" radio="true",Jazz Lounge
+https://stream.example.com/live/jazz-lounge.m3u8
+#EXTINF:-1 tvg-id="rock-arena" group-title="Music",Rock Arena
+https://stream.example.com/live/rock-arena.m3u8
+#EXTINF:-1 tvg-id="pop-hits" group-title="Music",Pop Hits
+https://stream.example.com/live/pop-hits.m3u8
+#EXTINF:-1 tvg-id="classical-hall" group-title="Music" radio="true",Classical Hall
+https://stream.example.com/live/classical-hall.m3u8
+#EXTINF:-1 tvg-id="travel+" group-title="Travel & Food",Travel+
+https://stream.example.com/live/travel+.m3u8
+#EXTINF:-1 tvg-id="food-network-plus" group-title="Travel & Food",Food Network Plus
+https://stream.example.com/live/food-network-plus.m3u8
+#EXTINF:-1 tvg-id="road-trips" group-title="Travel & Food",Road Trips
+https://stream.example.com/live/road-trips.m3u8
+#EXTINF:-1 tvg-id="chef-studio" group-title="Travel & Food",Chef Studio
+https://stream.example.com/live/chef-studio.m3u8
