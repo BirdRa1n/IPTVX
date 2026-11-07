@@ -16,7 +16,7 @@ flowchart LR
 |---|---|---|
 | `core` | Qt Core, Network, Sql, Concurrent | Qt Gui, Qml, Quick, Multimedia, `ui`, `app` |
 | `ui` | `core`, Qt Quick, Controls, Multimedia | `app` |
-| `app` | `ui`, `core` | — |
+| `app` | `ui`, `core`, platform SDKs (`platform/`, e.g. AppKit) | — |
 
 Keeping `core` GUI-free means every parser, provider and repository is unit
 tested without a display, and could be reused by a CLI or another front end.

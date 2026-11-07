@@ -92,6 +92,23 @@ Platform font (SF Pro / Segoe UI / desktop font) — no font files shipped.
 | Pages | `qml/pages/DashboardPage.qml`, `LiveTvPage.qml`, `SettingsPage.qml` |
 | Components | `PillButton`, `Chip`, `SearchField`, `SegmentedControl`, `ToggleSwitch`, `ChannelRow`, `ChannelLogo`, `EmptyState`, `Icon` |
 
+## Window chrome (macOS)
+
+`src/app/platform/WindowChrome_mac.mm` hides the native title text, makes
+the title bar transparent and installs an empty unified toolbar, so the
+traffic lights are vertically centred in a 52 pt bar. It then measures the
+buttons and hands their rect to QML (`Main.titleBarControls`):
+
+* the top bar height is derived from the buttons' vertical centre, so its
+  controls share their centre line;
+* the top bar's left inset clears the last button;
+* the rail reserves the same strip at the top (no vertical hairline through
+  the buttons);
+* the top bar and the rail strip drag the window; double-click zooms.
+
+Other platforms keep their native frame (`WindowChrome.cpp` is a no-op and
+the top bar is 62 px).
+
 ## Accessibility
 
 * Icon-only buttons set `Accessible.name` (rail buttons also show tooltips).
