@@ -19,11 +19,11 @@ include(CompilerSettings)
 # ---------------------------------------------------------------------------
 # Qt
 # ---------------------------------------------------------------------------
-find_package(Qt6 6.8 REQUIRED COMPONENTS
+find_package(Qt6 6.9 REQUIRED COMPONENTS
     Core Concurrent Network Sql Gui Qml Quick QuickControls2 Multimedia LinguistTools)
 
 qt_standard_project_setup(
-    REQUIRES 6.8
+    REQUIRES 6.9
     I18N_SOURCE_LANGUAGE en
     I18N_TRANSLATED_LANGUAGES pt_BR)
 

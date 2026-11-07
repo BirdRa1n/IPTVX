@@ -4,6 +4,8 @@
 qt_add_library(iptvx_core STATIC
     model/ChannelStore.cpp
     model/ChannelStore.h
+    parser/M3uParser.cpp
+    parser/M3uParser.h
     util/StringTable.h
 )
 
