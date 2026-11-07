@@ -323,70 +323,93 @@
         <translation>Nenhum canal corresponde</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="163" />
+        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="162" />
         <source>Up next in %1</source>
         <translation>A seguir em %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="163" />
+        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="162" />
         <source>Up next</source>
         <translation>A seguir</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="167" />
+        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="166" />
         <source>Programme guide arrives with XMLTV support</source>
         <translation>O guia de programação chega com o suporte a XMLTV</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="223" />
+        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="222" />
         <source>No channels yet</source>
         <translation>Ainda não há canais</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="224" />
+        <location filename="../src/ui/qml/pages/LiveTvPage.qml" line="223" />
         <source>Add an M3U playlist or an Xtream Codes account to start watching live TV.</source>
         <translation>Adicione uma playlist M3U ou uma conta Xtream Codes para começar a assistir TV ao vivo.</translation>
     </message>
 </context>
 <context>
+    <name>MiniPlayer</name>
+    <message>
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="189" />
+        <source>Back to Live TV</source>
+        <translation>Voltar para TV ao vivo</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="194" />
+        <source>Close mini player</source>
+        <translation>Fechar mini player</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="205" />
+        <source>Pause</source>
+        <translation>Pausar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="205" />
+        <source>Play</source>
+        <translation>Reproduzir</translation>
+    </message>
+</context>
+<context>
     <name>Rail</name>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="106" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="154" />
         <source>Dashboard</source>
         <translation>Painel</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="107" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="155" />
         <source>Live TV</source>
         <translation>TV ao vivo</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="108" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="156" />
         <source>Movies (soon)</source>
         <translation>Filmes (em breve)</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="109" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="157" />
         <source>Favorites (soon)</source>
         <translation>Favoritos (em breve)</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="110" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="158" />
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="121" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="169" />
         <source>Switch to light appearance</source>
         <translation>Mudar para aparência clara</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="121" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="169" />
         <source>Switch to dark appearance</source>
         <translation>Mudar para aparência escura</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/Rail.qml" line="126" />
+        <location filename="../src/ui/qml/shell/Rail.qml" line="174" />
         <source>Add source</source>
         <translation>Adicionar fonte</translation>
     </message>
@@ -407,77 +430,77 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="84" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="85" />
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="90" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="91" />
         <source>Appearance</source>
         <translation>Aparência</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="92" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="93" />
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="94" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
         <source>System</source>
         <translation>Sistema</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="94" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
         <source>Light</source>
         <translation>Claro</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="94" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
         <source>Dark</source>
         <translation>Escuro</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="101" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="102" />
         <source>Accent color</source>
         <translation>Cor de destaque</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="130" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="131" />
         <source>Reduce motion</source>
         <translation>Reduzir movimento</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="139" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="140" />
         <source>Sources</source>
         <translation>Fontes</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="150" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="151" />
         <source>Refresh</source>
         <translation>Atualizar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="158" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="159" />
         <source>Remove</source>
         <translation>Remover</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="170" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="171" />
         <source>No sources configured.</source>
         <translation>Nenhuma fonte configurada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="177" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="178" />
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="179" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="180" />
         <source>Version</source>
         <translation>Versão</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="184" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="185" />
         <source>Channel catalog in memory</source>
         <translation>Catálogo de canais na memória</translation>
     </message>
@@ -503,38 +526,38 @@
 <context>
     <name>TopBar</name>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="40" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="56" />
         <source>Switch source</source>
         <translation>Trocar fonte</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="61" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="77" />
         <source>No source</source>
         <translation>Nenhuma fonte</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="102" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="118" />
         <source>SOURCES</source>
         <translation>FONTES</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="157" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="173" />
         <source>Add source…</source>
         <translation>Adicionar fonte…</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="168" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="184" />
         <source>Loading…</source>
         <translation>Carregando…</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="171" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="187" />
         <source>%L1 channels · %L2 groups</source>
         <translation>%L1 canais · %L2 grupos</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="184" />
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="195" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="200" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="211" />
         <source>Search everything</source>
         <translation>Buscar em tudo</translation>
     </message>
@@ -542,49 +565,49 @@
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="57" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="53" />
         <source>Choose a channel to start watching</source>
         <translation>Escolha um canal para começar a assistir</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="72" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="68" />
         <source>Unable to play this stream.
 %1</source>
         <translation>Não foi possível reproduzir este stream.
 %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="160" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="156" />
         <source>Previous channel</source>
         <translation>Canal anterior</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="145" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="141" />
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="145" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="141" />
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="161" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="157" />
         <source>Next channel</source>
         <translation>Próximo canal</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="197" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="193" />
         <source>Unmute</source>
         <translation>Ativar som</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="197" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="193" />
         <source>Mute</source>
         <translation>Silenciar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="203" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="199" />
         <source>Full screen</source>
         <translation>Tela cheia</translation>
     </message>
