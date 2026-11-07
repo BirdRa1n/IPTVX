@@ -2,9 +2,10 @@ pragma Singleton
 
 import QtQuick
 import QtCore
+import QtMultimedia
 
-// UI session state shared by pages: navigation, now playing and the
-// persisted appearance preferences.
+// UI session state shared by pages: navigation, playback and the persisted
+// appearance preferences.
 QtObject {
     id: session
 
@@ -16,6 +17,17 @@ QtObject {
     property int playingRow: -1
     property var nowPlaying: null
 
+    // The one media player of the app. It outlives pages, so playback keeps
+    // going while the user browses; the Live TV player and the mini player
+    // only borrow its video output (one decoder, one set of buffers).
+    property MediaPlayer player: MediaPlayer {
+        audioOutput: AudioOutput { volume: 0.9 }
+    }
+    readonly property bool isPlaying: player.playbackState === MediaPlayer.PlayingState
+
+    // Set when the user closes the mini player; cleared on the next play().
+    property bool miniPlayerDismissed: false
+
     function play(row) {
         const item = Library.channels.get(row)
         if (!item || !item.url)
@@ -24,6 +36,26 @@ QtObject {
         nowPlaying = item
         lastChannelName = item.name
         lastChannelUrl = item.url
+        miniPlayerDismissed = false
+        // Assign the source right before play(): no binding to race with.
+        player.stop()
+        player.source = item.url
+        player.play()
+    }
+
+    function togglePlay() {
+        if (isPlaying)
+            player.pause()
+        else if (player.source.toString().length > 0)
+            player.play()
+    }
+
+    // Stops playback and forgets the current channel (mini player close).
+    function stop() {
+        player.stop()
+        player.source = ""
+        nowPlaying = null
+        playingRow = -1
     }
 
     // Plays the channel with catalog number `number` (1-based), clearing

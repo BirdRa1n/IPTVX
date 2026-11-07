@@ -143,7 +143,6 @@ Item {
                 Layout.preferredHeight: page.fullScreen ? -1 : width * 9 / 16
                 Layout.maximumHeight: page.fullScreen ? Number.POSITIVE_INFINITY : page.height * 0.66
                 radius: page.fullScreen ? 0 : Theme.radiusLarge
-                source: Session.nowPlaying ? Session.nowPlaying.url : ""
                 title: Session.nowPlaying ? Session.nowPlaying.name : ""
                 subtitle: Session.nowPlaying ? Session.nowPlaying.group : ""
                 onPreviousRequested: Session.step(-1)

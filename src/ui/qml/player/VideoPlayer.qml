@@ -12,11 +12,16 @@ import IPTVX.UI
 Rectangle {
     id: root
 
-    property url source
     property string title
     property string subtitle
     property bool live: true
-    readonly property bool playing: player.playbackState === MediaPlayer.PlayingState
+
+    // Playback lives in Session.player (app-wide); this view borrows its
+    // video output while it exists.
+    readonly property MediaPlayer player: Session.player
+    readonly property AudioOutput audio: Session.player.audioOutput
+    readonly property bool playing: Session.isPlaying
+    readonly property bool hasSource: player.source.toString().length > 0
     readonly property bool loading: player.mediaStatus === MediaPlayer.LoadingMedia
                                     || player.mediaStatus === MediaPlayer.BufferingMedia
                                     || player.mediaStatus === MediaPlayer.StalledMedia
@@ -29,26 +34,11 @@ Rectangle {
     radius: Theme.radiusLarge
     clip: true
 
-    function togglePlay() { root.playing ? player.pause() : player.play() }
+    function togglePlay() { Session.togglePlay() }
 
-    // Autoplay: the media source is assigned imperatively, right before
-    // play(), so playback never starts on a stale URL (a binding plus an
-    // onSourceChanged handler would race). Also covers a player created with
-    // a channel already selected (e.g. opened from the dashboard or ⌘K).
-    function load() {
-        player.stop()
-        player.source = root.source
-        if (root.source.toString().length > 0)
-            player.play()
-    }
-    onSourceChanged: load()
-    Component.onCompleted: load()
-
-    MediaPlayer {
-        id: player
-        videoOutput: videoSurface
-        audioOutput: AudioOutput { id: audio; volume: 0.9 }
-    }
+    // Take the video output when shown (the mini player releases it as it
+    // hides because the Live page is current again).
+    Component.onCompleted: player.videoOutput = videoSurface
 
     VideoOutput {
         id: videoSurface
@@ -59,7 +49,7 @@ Rectangle {
     // ---- States ----------------------------------------------------------
     Label {
         anchors.centerIn: parent
-        visible: root.source.toString().length === 0
+        visible: !root.hasSource
         text: qsTr("Choose a channel to start watching")
         color: Theme.videoTextSecondary
         font: Theme.body
@@ -74,8 +64,8 @@ Rectangle {
     Label {
         anchors.centerIn: parent
         width: parent.width - 64
-        visible: player.error !== MediaPlayer.NoError
-        text: qsTr("Unable to play this stream.\n%1").arg(player.errorString)
+        visible: root.player.error !== MediaPlayer.NoError
+        text: qsTr("Unable to play this stream.\n%1").arg(root.player.errorString)
         color: Theme.videoText
         font: Theme.body
         horizontalAlignment: Text.AlignHCenter
@@ -198,10 +188,10 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 4
                 BarButton {
-                    iconName: audio.muted ? "mute" : "volume"
+                    iconName: root.audio.muted ? "mute" : "volume"
                     filledIcon: false
-                    Accessible.name: audio.muted ? qsTr("Unmute") : qsTr("Mute")
-                    onClicked: audio.muted = !audio.muted
+                    Accessible.name: root.audio.muted ? qsTr("Unmute") : qsTr("Mute")
+                    onClicked: root.audio.muted = !root.audio.muted
                 }
                 BarButton {
                     iconName: "fullscreen"
@@ -217,9 +207,9 @@ Rectangle {
     focus: true
     Keys.onSpacePressed: root.togglePlay()
     Keys.onPressed: event => {
-        if (event.key === Qt.Key_M) { audio.muted = !audio.muted; event.accepted = true }
+        if (event.key === Qt.Key_M) { root.audio.muted = !root.audio.muted; event.accepted = true }
         else if (event.key === Qt.Key_F) { root.fullScreenRequested(); event.accepted = true }
-        else if (event.key === Qt.Key_Up) { audio.volume = Math.min(1, audio.volume + 0.05); event.accepted = true }
-        else if (event.key === Qt.Key_Down) { audio.volume = Math.max(0, audio.volume - 0.05); event.accepted = true }
+        else if (event.key === Qt.Key_Up) { root.audio.volume = Math.min(1, root.audio.volume + 0.05); event.accepted = true }
+        else if (event.key === Qt.Key_Down) { root.audio.volume = Math.max(0, root.audio.volume - 0.05); event.accepted = true }
     }
 }
