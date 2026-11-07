@@ -3,11 +3,14 @@
 
 #include "ArtworkNetworkFactory.h"
 #include "DevTools.h"
+#include "platform/WindowChrome.h"
 
 #include <QGuiApplication>
 #include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QQuickWindow>
+#include <QTimer>
 #include <QStandardPaths>
 #include <QTranslator>
 
@@ -55,6 +58,20 @@ int main(int argc, char *argv[])
         &engine, &QQmlApplicationEngine::objectCreationFailed, &app,
         [] { QCoreApplication::exit(EXIT_FAILURE); }, Qt::QueuedConnection);
     engine.loadFromModule(u"IPTVX.UI"_s, u"Main"_s);
+
+    // Native chrome: hide the title text, unify the title bar and tell QML
+    // where the window controls are so the rail and top bar align to them.
+    if (!engine.rootObjects().isEmpty()) {
+        if (auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst())) {
+            QTimer::singleShot(0, window, [window, dev] {
+                const QRectF controls = iptvx::app::styleWindowChrome(window);
+                window->setProperty("titleBarControls", controls);
+                if (dev.sandbox)
+                    qInfo("IPTVX window controls: x=%.1f y=%.1f w=%.1f h=%.1f", controls.x(),
+                          controls.y(), controls.width(), controls.height());
+            });
+        }
+    }
 
     dev.applyAfterLoad(engine);
 

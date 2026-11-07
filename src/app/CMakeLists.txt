@@ -1,7 +1,17 @@
 qt_add_executable(iptvx
     DevTools.cpp
     DevTools.h
-    main.cpp)
+    main.cpp
+    platform/WindowChrome.h)
+
+if(APPLE)
+    enable_language(OBJCXX)
+    target_sources(iptvx PRIVATE platform/WindowChrome_mac.mm)
+    target_link_libraries(iptvx PRIVATE "-framework AppKit")
+else()
+    target_sources(iptvx PRIVATE platform/WindowChrome.cpp)
+endif()
+target_include_directories(iptvx PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 set_target_properties(iptvx PROPERTIES
     OUTPUT_NAME IPTVX
