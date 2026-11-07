@@ -9,6 +9,8 @@ qt_add_library(iptvx_core STATIC
     model/Source.h
     provider/XtreamClient.cpp
     provider/XtreamClient.h
+    service/PlaylistLoader.cpp
+    service/PlaylistLoader.h
     storage/Database.cpp
     storage/Database.h
     storage/SourceRepository.cpp
