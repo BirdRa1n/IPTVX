@@ -12,6 +12,7 @@ project(IPTVX
 option(IPTVX_BUILD_TESTS "Build the unit test suite" ON)
 option(IPTVX_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
 option(IPTVX_ENABLE_LTO "Enable link-time optimisation in release builds" ON)
+option(IPTVX_BUILD_TOOLS "Build developer tools (icon renderer)" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(CompilerSettings)
@@ -35,6 +36,10 @@ qt_policy(SET QTP0004 NEW)
 add_subdirectory(src/core)
 add_subdirectory(src/ui)
 add_subdirectory(src/app)
+
+if(IPTVX_BUILD_TOOLS)
+    add_subdirectory(tools)
+endif()
 
 if(IPTVX_BUILD_TESTS)
     enable_testing()

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  IPTVX app icon — master artwork (1024 × 1024).
+  Follows the macOS icon grid: an 824 × 824 squircle body centred with a
+  100 px margin (the margin is part of the canvas for the system shadow).
+  Glyph: a screen outline with a play mark, in the Workspace lime accent.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B2B2B"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="glyph" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D8FF5C"/>
+      <stop offset="1" stop-color="#B4E21F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Body: continuous-corner squircle approximated with a 185 px radius -->
+  <rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="url(#body)"/>
+  <rect x="101.5" y="101.5" width="821" height="821" rx="183.5" ry="183.5" fill="none"
+        stroke="url(#rim)" stroke-width="3"/>
+
+  <!-- Screen outline -->
+  <rect x="262" y="318" width="500" height="352" rx="72" ry="72" fill="none"
+        stroke="url(#glyph)" stroke-width="44"/>
+  <!-- Stand -->
+  <rect x="402" y="726" width="220" height="40" rx="20" ry="20" fill="url(#glyph)"/>
+
+  <!-- Play mark (rounded triangle) -->
+  <path d="M470 418
+           C470 401 488 391 503 399
+           L607 466
+           C620 474 620 494 607 502
+           L503 569
+           C488 577 470 567 470 550 Z"
+        fill="url(#glyph)"/>
+</svg>
