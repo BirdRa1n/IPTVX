@@ -13,10 +13,10 @@ Rectangle {
     property string name
     property url source
 
-    implicitWidth: 34
-    implicitHeight: 34
-    radius: Theme.radiusSmall + 1
-    color: image.status === Image.Ready ? (Theme.dark ? "#FFFFFF14" : "#00000008") : Theme.tint(name)
+    implicitWidth: 38
+    implicitHeight: 38
+    radius: Theme.radiusMedium
+    color: image.status === Image.Ready ? Theme.chip : Theme.tint(name)
     clip: true
 
     Label {
@@ -24,21 +24,19 @@ Rectangle {
         visible: image.status !== Image.Ready
         text: Theme.monogram(root.name)
         color: "#FFFFFF"
-        font.pixelSize: Math.round(root.height * 0.36)
-        font.weight: Font.Bold
+        font.pixelSize: Math.round(root.height * 0.32)
+        font.weight: Font.ExtraBold
     }
 
     Image {
         id: image
         anchors.fill: parent
-        anchors.margins: 3
+        anchors.margins: 4
         source: root.source
         asynchronous: true
         fillMode: Image.PreserveAspectFit
         sourceSize.width: Math.ceil(width * Screen.devicePixelRatio)
         sourceSize.height: Math.ceil(height * Screen.devicePixelRatio)
-        smooth: true
-        mipmap: false
         opacity: status === Image.Ready ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: Theme.durationMedium } }
     }

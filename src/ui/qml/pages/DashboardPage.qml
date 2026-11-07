@@ -5,157 +5,146 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import IPTVX.UI
 
-// Home: large title, featured "continue watching" card, library stats and
-// a grid of channel groups.
+// Dashboard: greeting, continue watching, groups and source health.
 Flickable {
     id: page
 
     signal addSourceRequested()
+    signal paletteRequested()
 
     contentHeight: column.implicitHeight + Theme.space7 * 2
     clip: true
     boundsBehavior: Flickable.StopAtBounds
     ScrollBar.vertical: ScrollBar {}
 
+    component SectionHeader: RowLayout {
+        id: header
+        property string title
+        property string detail
+        Layout.fillWidth: true
+        Label { text: header.title; font: Theme.title2; color: Theme.textPrimary }
+        Item { Layout.fillWidth: true }
+        Label { text: header.detail; font: Theme.callout; color: Theme.textTertiary }
+    }
+
     ColumnLayout {
         id: column
         x: Theme.space7
-        y: Qt.platform.os === "osx" ? 36 : Theme.space6
+        y: Theme.space6
         width: page.width - Theme.space7 * 2
         spacing: Theme.space6
         visible: Library.sources.count > 0
 
-        // ---- Header --------------------------------------------------------
         ColumnLayout {
-            spacing: 2
+            spacing: 4
+            Label { text: Theme.greeting(); font: Theme.largeTitle; color: Theme.textPrimary }
             Label {
-                text: new Date().toLocaleDateString(Qt.locale(), "dddd, d MMMM").toUpperCase()
-                font: Theme.sectionLabel
+                text: new Date().toLocaleDateString(Qt.locale(), "dddd, d MMMM")
+                font: Theme.callout
                 color: Theme.textTertiary
             }
-            Label {
-                text: qsTr("Home")
-                font: Theme.largeTitle
-                color: Theme.textPrimary
-            }
         }
 
-        // ---- Featured card -------------------------------------------------
-        Rectangle {
-            id: hero
+        // ---- Continue watching ------------------------------------------
+        SectionHeader { title: qsTr("Continue watching") }
+
+        AbstractButton {
+            id: resume
             Layout.fillWidth: true
-            Layout.preferredHeight: 220
-            radius: Theme.radiusLarge + 2
-            color: "#1E2A3A"
-            clip: true
-
-            // Decorative orbs drift slowly (disabled with reduced motion).
-            Rectangle {
-                id: orbA
-                width: 420; height: 420; radius: 210
-                color: "#2E4A6B"
-                x: hero.width - 380; y: -60
-                SequentialAnimation on x {
-                    loops: Animation.Infinite
-                    running: !Theme.reduceMotion && page.visible
-                    NumberAnimation { to: hero.width - 340; duration: 9000; easing.type: Easing.InOutSine }
-                    NumberAnimation { to: hero.width - 380; duration: 9000; easing.type: Easing.InOutSine }
-                }
+            Layout.preferredHeight: 132
+            hoverEnabled: true
+            enabled: Library.channels.totalCount > 0
+            Accessible.name: qsTr("Resume %1").arg(resumeTitle.text)
+            onClicked: {
+                if (Session.playingRow < 0)
+                    Session.play(0)
+                Session.page = "live"
             }
-            Rectangle {
-                width: 220; height: 220; radius: 110
-                color: Qt.alpha(Theme.accent, 0.55)
-                x: hero.width - 340; y: 40
+            background: Rectangle {
+                radius: Theme.radiusLarge
+                color: resume.hovered ? Theme.hover : Theme.surface
+                border.width: 1
+                border.color: Theme.border
+                Behavior on color { ColorAnimation { duration: Theme.durationFast } }
             }
-
-            ColumnLayout {
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                anchors.margins: Theme.space6
-                width: Math.min(parent.width - Theme.space6 * 2, 520)
-                spacing: Theme.space2
-
-                Label {
-                    text: Session.lastChannelUrl.length > 0 ? qsTr("CONTINUE WATCHING") : qsTr("READY WHEN YOU ARE")
-                    font: Theme.sectionLabel
-                    color: "#D5DEE9"
-                    padding: 4
-                    leftPadding: 8
-                    rightPadding: 8
-                    background: Rectangle { radius: 6; color: Qt.rgba(1, 1, 1, 0.18) }
+            contentItem: RowLayout {
+                spacing: Theme.space4
+                Rectangle {
+                    Layout.leftMargin: Theme.space4
+                    Layout.preferredWidth: 176
+                    Layout.preferredHeight: 100
+                    radius: Theme.radiusMedium
+                    color: Theme.video
+                    clip: true
+                    ChannelLogo {
+                        anchors.centerIn: parent
+                        width: 48; height: 48
+                        name: resumeTitle.text
+                    }
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: 4
+                        color: Theme.track
+                        Rectangle { width: parent.width * 0.47; height: 4; color: Theme.accent }
+                    }
                 }
-                Label {
+                ColumnLayout {
                     Layout.fillWidth: true
-                    text: Session.lastChannelName.length > 0
-                          ? Session.lastChannelName
-                          : (Library.activeSourceName || qsTr("Your library"))
-                    font: Theme.title
-                    color: "#FFFFFF"
-                    elide: Text.ElideRight
-                }
-                Label {
-                    text: Library.busy ? qsTr("Loading channels…")
-                                       : qsTr("%L1 channels · %L2 groups").arg(Library.channels.totalCount).arg(Library.channels.groups.length)
-                    font: Theme.body
-                    color: "#D5DEE9"
-                }
-                RowLayout {
-                    Layout.topMargin: Theme.space2
-                    spacing: Theme.space2
-                    PillButton {
-                        text: qsTr("Watch Live")
-                        iconName: "play"
-                        tint: "#FFFFFF"
-                        prominent: true
-                        foreground: "#111111"
-                        enabled: Library.channels.totalCount > 0
-                        onClicked: {
-                            if (Session.playingRow < 0)
-                                Session.play(0)
-                            Session.page = "live"
-                        }
+                    spacing: 4
+                    Label {
+                        text: Session.lastChannelUrl.length > 0 ? qsTr("LAST WATCHED") : qsTr("READY WHEN YOU ARE")
+                        font: Theme.sectionLabel
+                        color: Theme.accentText
                     }
-                    PillButton {
-                        text: qsTr("Browse Channels")
-                        prominent: false
-                        tint: "#FFFFFF"
-                        onClicked: Session.page = "live"
+                    Label {
+                        id: resumeTitle
+                        Layout.fillWidth: true
+                        text: Session.lastChannelName.length > 0 ? Session.lastChannelName
+                                                                 : (Library.activeSourceName || qsTr("Your library"))
+                        font: Theme.title
+                        color: Theme.textPrimary
+                        elide: Text.ElideRight
                     }
+                    Label {
+                        text: Library.busy ? qsTr("Loading channels…")
+                                           : qsTr("Live · %1").arg(Library.activeSourceName)
+                        font: Theme.callout
+                        color: Theme.textSecondary
+                    }
+                }
+                PillButton {
+                    Layout.rightMargin: Theme.space5
+                    text: qsTr("Watch")
+                    iconName: "play"
+                    enabled: resume.enabled
+                    onClicked: resume.clicked()
                 }
             }
+            scale: pressed ? 0.99 : 1
+            Behavior on scale { NumberAnimation { duration: Theme.durationFast } }
         }
 
-        // ---- Groups ---------------------------------------------------------
-        RowLayout {
-            Layout.fillWidth: true
+        // ---- Groups -----------------------------------------------------
+        SectionHeader {
             visible: Library.channels.groups.length > 0
-            Label {
-                Layout.fillWidth: true
-                text: qsTr("Browse by Group")
-                font: Theme.title2
-                color: Theme.textPrimary
-            }
-            Label {
-                text: qsTr("%L1 groups").arg(Library.channels.groups.length)
-                font: Theme.callout
-                color: Theme.textSecondary
-            }
+            title: qsTr("Groups")
+            detail: qsTr("%L1 groups").arg(Library.channels.groups.length)
         }
-
         GridLayout {
             Layout.fillWidth: true
-            columns: Math.max(2, Math.floor(column.width / 220))
+            visible: Library.channels.groups.length > 0
+            columns: Math.max(2, Math.floor(column.width / 200))
             columnSpacing: Theme.space3
             rowSpacing: Theme.space3
-
             Repeater {
-                // Show the first groups only; the full list lives in Live TV.
-                model: Library.channels.groups.slice(0, 24)
+                model: Library.channels.groups.slice(0, 12)
                 delegate: AbstractButton {
-                    id: card
+                    id: groupCell
                     required property string modelData
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 76
+                    Layout.preferredWidth: 1 // equal columns
+                    Layout.preferredHeight: 56
                     hoverEnabled: true
                     Accessible.name: modelData
                     onClicked: {
@@ -163,32 +152,90 @@ Flickable {
                         Session.page = "live"
                     }
                     background: Rectangle {
-                        radius: Theme.radiusMedium + 2
-                        color: card.hovered ? Theme.cardHover : Theme.card
+                        radius: Theme.radiusMedium
+                        color: groupCell.hovered ? Theme.hover : Theme.cell
                         Behavior on color { ColorAnimation { duration: Theme.durationFast } }
                     }
                     contentItem: RowLayout {
-                        spacing: Theme.space3
-                        ChannelLogo {
-                            Layout.leftMargin: Theme.space4
-                            Layout.preferredWidth: 40
-                            Layout.preferredHeight: 40
-                            radius: Theme.radiusMedium
-                            name: card.modelData
+                        spacing: 10
+                        Rectangle {
+                            Layout.leftMargin: 12
+                            Layout.preferredWidth: 8
+                            Layout.preferredHeight: 8
+                            radius: 4
+                            color: Theme.tint(groupCell.modelData)
                         }
                         Label {
                             Layout.fillWidth: true
-                            Layout.rightMargin: Theme.space4
-                            text: card.modelData
+                            text: groupCell.modelData
                             font: Theme.headline
                             color: Theme.textPrimary
                             elide: Text.ElideRight
-                            maximumLineCount: 2
-                            wrapMode: Text.Wrap
+                        }
+                        Icon { Layout.rightMargin: 12; Layout.preferredWidth: 14; Layout.preferredHeight: 14; name: "chevronRight"; color: Theme.textTertiary }
+                    }
+                }
+            }
+        }
+
+        // ---- Sources ----------------------------------------------------
+        SectionHeader { title: qsTr("Your sources"); detail: qsTr("%L1 configured").arg(Library.sources.count) }
+        GridLayout {
+            Layout.fillWidth: true
+            columns: Math.max(1, Math.floor(column.width / 300))
+            columnSpacing: Theme.space3
+            rowSpacing: Theme.space3
+            Repeater {
+                model: Library.sources
+                delegate: AbstractButton {
+                    id: sourceCard
+                    required property string sourceId
+                    required property string name
+                    required property string typeLabel
+                    readonly property bool active: sourceId === Library.activeSourceId
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: 1 // equal columns
+                    Layout.maximumWidth: 420
+                    Layout.preferredHeight: 104
+                    hoverEnabled: true
+                    Accessible.name: name
+                    onClicked: Library.selectSource(sourceId)
+                    background: Rectangle {
+                        radius: Theme.radiusLarge
+                        color: sourceCard.hovered ? Theme.hover : Theme.surface
+                        border.width: 1
+                        border.color: sourceCard.active ? Theme.accentText : Theme.border
+                    }
+                    contentItem: ColumnLayout {
+                        spacing: 8
+                        RowLayout {
+                            Layout.leftMargin: Theme.space4
+                            Layout.rightMargin: Theme.space4
+                            spacing: 8
+                            Rectangle {
+                                Layout.preferredWidth: 8
+                                Layout.preferredHeight: 8
+                                radius: 4
+                                color: sourceCard.active ? (Library.busy ? Theme.warning : Theme.success) : Theme.textTertiary
+                            }
+                            Label { Layout.fillWidth: true; text: sourceCard.name; font: Theme.headline; color: Theme.textPrimary; elide: Text.ElideRight }
+                            Label { text: sourceCard.typeLabel; font: Theme.caption; color: Theme.textSecondary }
+                        }
+                        Label {
+                            Layout.leftMargin: Theme.space4
+                            text: sourceCard.active && !Library.busy
+                                  ? qsTr("%L1 live channels").arg(Library.channels.totalCount)
+                                  : sourceCard.active ? qsTr("Loading…") : qsTr("Click to load")
+                            font: Theme.callout
+                            color: Theme.textPrimary
+                        }
+                        Label {
+                            Layout.leftMargin: Theme.space4
+                            text: sourceCard.active ? qsTr("Active source") : qsTr("Idle — not in memory")
+                            font: Theme.caption
+                            color: Theme.textTertiary
                         }
                     }
-                    scale: pressed ? 0.97 : (hovered ? 1.015 : 1)
-                    Behavior on scale { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutBack } }
                 }
             }
         }

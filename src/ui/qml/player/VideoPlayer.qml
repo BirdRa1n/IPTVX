@@ -3,11 +3,12 @@ import QtQuick.Controls.Basic
 import QtMultimedia
 import IPTVX.UI
 
-// Video surface with a floating "glass" control bar that auto-hides.
+// Video surface with an inline control bar that auto-hides.
 //
 // Playback uses Qt Multimedia (FFmpeg backend on every desktop platform).
 // Decoding happens on Qt's media threads; frames go straight to the scene
-// graph without extra copies.
+// graph without extra copies. The video area is always dark, in both
+// appearances, so its overlay uses the fixed on-video colors.
 Rectangle {
     id: root
 
@@ -54,7 +55,7 @@ Rectangle {
         anchors.centerIn: parent
         visible: root.source.toString().length === 0
         text: qsTr("Choose a channel to start watching")
-        color: "#6F829B"
+        color: Theme.videoTextSecondary
         font: Theme.body
     }
 
@@ -62,7 +63,6 @@ Rectangle {
         anchors.centerIn: parent
         running: root.loading
         visible: running
-        palette.dark: "#FFFFFF"
     }
 
     Label {
@@ -70,7 +70,7 @@ Rectangle {
         width: parent.width - 64
         visible: player.error !== MediaPlayer.NoError
         text: qsTr("Unable to play this stream.\n%1").arg(player.errorString)
-        color: "#FFFFFF"
+        color: Theme.videoText
         font: Theme.body
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.Wrap
@@ -78,7 +78,6 @@ Rectangle {
 
     // ---- Overlay ----------------------------------------------------------
     MouseArea {
-        id: hover
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
@@ -101,20 +100,68 @@ Rectangle {
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutCubic } }
 
-        // Live badge
         Rectangle {
-            visible: root.title.length > 0
-            x: 16; y: 16
-            height: 28
-            width: badgeRow.implicitWidth + 20
-            radius: 10
-            color: Qt.rgba(0.08, 0.08, 0.09, 0.55)
+            id: bar
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 14
+            anchors.bottomMargin: overlay.shown ? 14 : 4
+            Behavior on anchors.bottomMargin { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutCubic } }
+            height: 50
+            radius: Theme.radiusLarge - 2
+            color: Theme.overlay
+
+            component BarButton: AbstractButton {
+                id: barButton
+                property string iconName
+                property bool filledIcon: true
+                width: 32; height: 32
+                anchors.verticalCenter: parent ? parent.verticalCenter : undefined
+                hoverEnabled: true
+                background: Rectangle { radius: 8; color: barButton.hovered ? Qt.rgba(1, 1, 1, 0.1) : "transparent" }
+                contentItem: Item {
+                    Icon {
+                        anchors.centerIn: parent
+                        width: 17; height: 17
+                        name: barButton.iconName
+                        filled: barButton.filledIcon
+                        color: Theme.videoText
+                    }
+                }
+                scale: pressed ? 0.9 : 1
+                Behavior on scale { NumberAnimation { duration: Theme.durationFast } }
+            }
+
             Row {
-                id: badgeRow
-                anchors.centerIn: parent
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
                 spacing: 8
+
+                AbstractButton {
+                    width: 34; height: 34
+                    anchors.verticalCenter: parent.verticalCenter
+                    Accessible.name: root.playing ? qsTr("Pause") : qsTr("Play")
+                    onClicked: root.togglePlay()
+                    background: Rectangle { radius: 17; color: Theme.accent }
+                    contentItem: Item {
+                        Icon {
+                            anchors.centerIn: parent
+                            width: 14; height: 14
+                            name: root.playing ? "pause" : "play"
+                            filled: true
+                            color: Theme.accentForeground
+                        }
+                    }
+                    scale: pressed ? 0.9 : 1
+                    Behavior on scale { NumberAnimation { duration: Theme.durationFast } }
+                }
+                BarButton { iconName: "prev"; Accessible.name: qsTr("Previous channel"); onClicked: root.previousRequested() }
+                BarButton { iconName: "next"; Accessible.name: qsTr("Next channel"); onClicked: root.nextRequested() }
+
                 Rectangle {
-                    visible: root.live
+                    visible: root.live && root.title.length > 0
                     width: 8; height: 8; radius: 4
                     color: Theme.live
                     anchors.verticalCenter: parent.verticalCenter
@@ -126,70 +173,36 @@ Rectangle {
                     }
                 }
                 Label {
-                    text: (root.live ? qsTr("LIVE") + " · " : "") + root.title
-                    color: "#FFFFFF"
-                    font.pixelSize: 12
-                    font.weight: Font.DemiBold
+                    text: root.title
+                    font: Theme.headline
+                    color: Theme.videoText
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Label {
+                    text: root.subtitle
+                    font: Theme.caption
+                    color: Theme.videoTextSecondary
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
-        }
-
-        // Floating control capsule
-        Rectangle {
-            id: bar
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: overlay.shown ? 18 : 6
-            Behavior on anchors.bottomMargin { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutBack } }
-            height: 56
-            width: controls.implicitWidth + 40
-            radius: 28
-            color: Theme.material
-            border.width: 0.5
-            border.color: Qt.rgba(1, 1, 1, Theme.dark ? 0.08 : 0.5)
 
             Row {
-                id: controls
-                anchors.centerIn: parent
-                spacing: 16
-
-                component BarButton: AbstractButton {
-                    id: barButton
-                    property string iconName
-                    width: 32; height: 32
-                    anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                    contentItem: Icon { name: barButton.iconName; color: Theme.textPrimary; filled: barButton.iconName !== "fullscreen" && barButton.iconName !== "volume" && barButton.iconName !== "mute" }
-                    scale: pressed ? 0.88 : 1
-                    Behavior on scale { NumberAnimation { duration: Theme.durationFast } }
-                }
-
-                BarButton { iconName: "prev"; Accessible.name: qsTr("Previous channel"); onClicked: root.previousRequested() }
-                AbstractButton {
-                    width: 42; height: 42
-                    anchors.verticalCenter: parent.verticalCenter
-                    Accessible.name: root.playing ? qsTr("Pause") : qsTr("Play")
-                    onClicked: root.togglePlay()
-                    background: Rectangle { radius: 21; color: Theme.textPrimary }
-                    contentItem: Item {
-                        Icon {
-                            anchors.centerIn: parent
-                            width: 17; height: 17
-                            name: root.playing ? "pause" : "play"
-                            filled: true
-                            color: Theme.window
-                        }
-                    }
-                    scale: pressed ? 0.9 : 1
-                    Behavior on scale { NumberAnimation { duration: Theme.durationFast } }
-                }
-                BarButton { iconName: "next"; Accessible.name: qsTr("Next channel"); onClicked: root.nextRequested() }
-                Rectangle { width: 1; height: 22; color: Theme.separator; anchors.verticalCenter: parent.verticalCenter }
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 4
                 BarButton {
                     iconName: audio.muted ? "mute" : "volume"
+                    filledIcon: false
                     Accessible.name: audio.muted ? qsTr("Unmute") : qsTr("Mute")
                     onClicked: audio.muted = !audio.muted
                 }
-                BarButton { iconName: "fullscreen"; Accessible.name: qsTr("Full screen"); onClicked: root.fullScreenRequested() }
+                BarButton {
+                    iconName: "fullscreen"
+                    filledIcon: false
+                    Accessible.name: qsTr("Full screen")
+                    onClicked: root.fullScreenRequested()
+                }
             }
         }
     }

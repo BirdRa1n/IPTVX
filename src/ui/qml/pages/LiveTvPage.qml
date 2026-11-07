@@ -5,103 +5,85 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import IPTVX.UI
 
-// Live TV: channel list (search + group chips) beside the player.
+// Live TV workspace: channel pane (filter + chips + list) beside the
+// player and an "up next" ribbon.
 Item {
     id: page
 
     signal fullScreenRequested(bool on)
     property bool fullScreen: false
 
+    // Next channels after the playing one, for the ribbon (max 5 maps).
+    readonly property var upNext: {
+        const count = Library.channels.count
+        const from = Session.playingRow < 0 ? 0 : Session.playingRow + 1
+        const items = []
+        for (let i = from; i < Math.min(from + 5, count); ++i) {
+            const item = Library.channels.get(i)
+            item.row = i
+            items.push(item)
+        }
+        return items
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
 
-        // ---- Channel list pane -------------------------------------------
+        // ---- Channel pane ------------------------------------------------
         Rectangle {
-            id: listPane
             Layout.fillHeight: true
-            Layout.preferredWidth: page.fullScreen ? 0 : 340
+            Layout.preferredWidth: page.fullScreen ? 0 : Theme.listPaneWidth
             visible: Layout.preferredWidth > 0
-            color: Theme.sidebar
+            color: Theme.bg
             clip: true
             Behavior on Layout.preferredWidth { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutCubic } }
 
-            Rectangle { anchors.right: parent.right; width: 1; height: parent.height; color: Theme.sidebarBorder }
+            Rectangle { anchors.right: parent.right; width: 1; height: parent.height; color: Theme.divider }
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.topMargin: Qt.platform.os === "osx" ? 36 : Theme.space5
+                anchors.topMargin: Theme.space3
                 spacing: Theme.space3
 
-                ColumnLayout {
-                    Layout.leftMargin: Theme.space4
-                    Layout.rightMargin: Theme.space4
-                    spacing: Theme.space3
-
-                    RowLayout {
-                        Label {
-                            Layout.fillWidth: true
-                            text: qsTr("Live TV")
-                            font: Theme.title
-                            color: Theme.textPrimary
-                        }
-                        Label {
-                            text: Library.channels.count === Library.channels.totalCount
-                                  ? qsTr("%L1 channels").arg(Library.channels.count)
-                                  : qsTr("%L1 of %L2").arg(Library.channels.count).arg(Library.channels.totalCount)
-                            font: Theme.caption
-                            color: Theme.textTertiary
-                        }
-                    }
-
-                    SearchField {
-                        Layout.fillWidth: true
-                        placeholderText: qsTr("Search channels")
-                        text: Library.channels.searchText
-                        onDebounced: value => Library.channels.searchText = value
-                    }
+                SearchField {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 14
+                    Layout.rightMargin: 14
+                    placeholderText: qsTr("Filter channels")
+                    text: Library.channels.searchText
+                    onDebounced: value => Library.channels.searchText = value
                 }
 
-                // Group chips
                 ListView {
-                    id: chips
                     Layout.fillWidth: true
                     Layout.preferredHeight: 30
                     orientation: ListView.Horizontal
                     spacing: 6
-                    leftMargin: Theme.space4
-                    rightMargin: Theme.space4
+                    leftMargin: 14
+                    rightMargin: 14
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
                     model: [""].concat(Library.channels.groups)
-                    delegate: AbstractButton {
-                        id: chip
+                    delegate: Chip {
                         required property string modelData
-                        readonly property bool active: Library.channels.group === modelData
-                        height: 28
-                        width: chipLabel.implicitWidth + 26
-                        Accessible.name: chipLabel.text
+                        text: modelData === "" ? qsTr("All") : modelData
+                        active: Library.channels.group === modelData
                         onClicked: Library.channels.group = modelData
-                        background: Rectangle {
-                            radius: 14
-                            color: chip.active ? Theme.accent : Theme.field
-                            Behavior on color { ColorAnimation { duration: Theme.durationFast } }
-                        }
-                        contentItem: Label {
-                            id: chipLabel
-                            text: chip.modelData === "" ? qsTr("All") : chip.modelData
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            font.pixelSize: 12
-                            font.weight: chip.active ? Font.DemiBold : Font.Normal
-                            color: chip.active ? Theme.accentForeground : Theme.textPrimary
-                        }
                     }
                 }
 
-                // Channel list. ListView only instantiates visible delegates
-                // (plus a small cache buffer) and reuses them while scrolling,
-                // so 100k channels cost the same as 20 in QML objects.
+                Label {
+                    Layout.leftMargin: 18
+                    text: Library.channels.count === Library.channels.totalCount
+                          ? qsTr("%L1 channels").arg(Library.channels.count)
+                          : qsTr("%L1 of %L2 channels").arg(Library.channels.count).arg(Library.channels.totalCount)
+                    font: Theme.caption
+                    color: Theme.textTertiary
+                }
+
+                // ListView only instantiates visible delegates (plus a small
+                // cache) and reuses them: 100k channels cost the same as 20.
                 ListView {
                     id: list
                     Layout.fillWidth: true
@@ -114,8 +96,6 @@ Item {
                     rightMargin: 8
                     bottomMargin: 12
                     model: Library.channels
-                    currentIndex: Session.playingRow
-                    highlightFollowsCurrentItem: false
                     boundsBehavior: Flickable.StopAtBounds
                     ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
@@ -134,9 +114,6 @@ Item {
                         onClicked: Session.play(index)
                     }
 
-                    // Gentle insert animation when the filter changes.
-                    add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1; duration: Theme.durationFast } }
-
                     BusyIndicator {
                         anchors.centerIn: parent
                         running: Library.busy
@@ -145,7 +122,7 @@ Item {
                     Label {
                         anchors.centerIn: parent
                         visible: !Library.busy && list.count === 0 && Library.channels.totalCount > 0
-                        text: qsTr("No channels match your search")
+                        text: qsTr("No channels match")
                         font: Theme.callout
                         color: Theme.textSecondary
                     }
@@ -153,68 +130,83 @@ Item {
             }
         }
 
-        // ---- Player ---------------------------------------------------------
+        // ---- Player + ribbon ----------------------------------------------
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.margins: page.fullScreen ? 0 : Theme.space5
-            spacing: Theme.space5
+            Layout.margins: page.fullScreen ? 0 : Theme.space4
+            spacing: Theme.space4
 
             VideoPlayer {
-                id: player
                 Layout.fillWidth: true
                 Layout.fillHeight: page.fullScreen
                 Layout.preferredHeight: page.fullScreen ? -1 : width * 9 / 16
-                Layout.maximumHeight: page.fullScreen ? Number.POSITIVE_INFINITY : page.height * 0.68
+                Layout.maximumHeight: page.fullScreen ? Number.POSITIVE_INFINITY : page.height * 0.66
                 radius: page.fullScreen ? 0 : Theme.radiusLarge
                 source: Session.nowPlaying ? Session.nowPlaying.url : ""
                 title: Session.nowPlaying ? Session.nowPlaying.name : ""
+                subtitle: Session.nowPlaying ? Session.nowPlaying.group : ""
                 onPreviousRequested: Session.step(-1)
                 onNextRequested: Session.step(1)
                 onFullScreenRequested: page.fullScreenRequested(!page.fullScreen)
-                Behavior on radius { NumberAnimation { duration: Theme.durationMedium } }
             }
 
-            // Now playing card
-            Rectangle {
+            // Up-next ribbon (becomes the EPG ribbon once XMLTV lands).
+            ColumnLayout {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 84
-                visible: !page.fullScreen && Session.nowPlaying !== null
-                radius: Theme.radiusMedium + 2
-                color: Theme.card
+                visible: !page.fullScreen && page.upNext.length > 0
+                spacing: Theme.space2
 
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: Theme.space4
-                    spacing: Theme.space4
-                    ChannelLogo {
-                        Layout.preferredWidth: 52
-                        Layout.preferredHeight: 52
-                        radius: Theme.radiusMedium
-                        name: Session.nowPlaying ? Session.nowPlaying.name : ""
-                        source: Session.nowPlaying ? Session.nowPlaying.logo : ""
+                    spacing: Theme.space3
+                    Label {
+                        text: Library.channels.group.length > 0 ? qsTr("Up next in %1").arg(Library.channels.group) : qsTr("Up next")
+                        font: Theme.headline
+                        color: Theme.textPrimary
                     }
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 2
-                        Label {
-                            text: qsTr("NOW PLAYING")
-                            font: Theme.sectionLabel
-                            color: Theme.accent
-                        }
-                        Label {
+                    Label { text: qsTr("Programme guide arrives with XMLTV support"); font: Theme.caption; color: Theme.textTertiary }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 4
+                    Repeater {
+                        model: page.upNext
+                        delegate: AbstractButton {
+                            id: cell
+                            required property var modelData
                             Layout.fillWidth: true
-                            text: Session.nowPlaying ? Session.nowPlaying.name : ""
-                            font: Theme.title2
-                            color: Theme.textPrimary
-                            elide: Text.ElideRight
-                        }
-                        Label {
-                            Layout.fillWidth: true
-                            text: Session.nowPlaying ? Session.nowPlaying.group : ""
-                            font: Theme.callout
-                            color: Theme.textSecondary
-                            elide: Text.ElideRight
+                            Layout.preferredWidth: 1 // equal cells
+                            Layout.preferredHeight: 58
+                            hoverEnabled: true
+                            Accessible.name: modelData.name
+                            onClicked: Session.play(modelData.row)
+                            background: Rectangle {
+                                radius: Theme.radiusMedium
+                                color: cell.hovered ? Theme.hover : Theme.cell
+                                Behavior on color { ColorAnimation { duration: Theme.durationFast } }
+                            }
+                            contentItem: ColumnLayout {
+                                spacing: 2
+                                Label {
+                                    Layout.leftMargin: 10
+                                    Layout.rightMargin: 10
+                                    Layout.fillWidth: true
+                                    text: cell.modelData.number
+                                    font.pixelSize: 12
+                                    font.weight: Font.Bold
+                                    color: Theme.textPrimary
+                                }
+                                Label {
+                                    Layout.leftMargin: 10
+                                    Layout.rightMargin: 10
+                                    Layout.fillWidth: true
+                                    text: cell.modelData.name
+                                    font: Theme.caption
+                                    color: Theme.textSecondary
+                                    elide: Text.ElideRight
+                                }
+                            }
                         }
                     }
                 }

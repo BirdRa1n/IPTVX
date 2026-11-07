@@ -4,8 +4,7 @@ import QtQuick
 import QtQuick.Controls.Basic
 import IPTVX.UI
 
-// SwiftUI-style segmented picker. The white "thumb" slides between
-// segments with a soft spring.
+// Segmented picker; the raised thumb slides between segments on a spring.
 Rectangle {
     id: root
 
@@ -13,30 +12,29 @@ Rectangle {
     property int currentIndex: 0
     signal activated(int index)
 
-    implicitHeight: 32
-    implicitWidth: segments.implicitWidth + 4
-    radius: Theme.radiusSmall + 1
-    color: Theme.field
+    implicitHeight: 34
+    implicitWidth: segments.implicitWidth + 6
+    radius: Theme.radiusMedium
+    color: Theme.chip
 
     Rectangle {
         id: thumb
-        y: 2
-        height: parent.height - 4
-        radius: Theme.radiusSmall - 1
-        color: Theme.dark ? "#5A5A60" : "#FFFFFF"
+        y: 3
+        height: parent.height - 6
+        radius: Theme.radiusSmall
+        color: Theme.dark ? "#3A3A3A" : Theme.surface
+        border.width: Theme.dark ? 0 : 1
+        border.color: Theme.border
         readonly property Item target: segments.children[root.currentIndex] ?? null
-        x: target ? target.x + 2 : 2
+        x: target ? target.x + 3 : 3
         width: target ? target.width : 0
-        Behavior on x { SpringAnimation { spring: 4; damping: 0.35; epsilon: 0.25 } }
-        Behavior on width { SpringAnimation { spring: 4; damping: 0.35; epsilon: 0.25 } }
-
-        border.width: Theme.dark ? 0 : 0.5
-        border.color: "#D8D8DE"
+        Behavior on x { SpringAnimation { spring: 4.5; damping: 0.38; epsilon: 0.25 } }
+        Behavior on width { SpringAnimation { spring: 4.5; damping: 0.38; epsilon: 0.25 } }
     }
 
     Row {
         id: segments
-        x: 2
+        x: 3
         anchors.verticalCenter: parent.verticalCenter
 
         Repeater {
@@ -46,7 +44,7 @@ Rectangle {
                 required property int index
                 required property string modelData
                 width: Math.max(64, label.implicitWidth + 28)
-                height: root.height - 4
+                height: root.height - 6
                 Accessible.role: Accessible.RadioButton
                 Accessible.name: segment.modelData
                 checked: segment.index === root.currentIndex
@@ -57,8 +55,8 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: Theme.callout.pixelSize
-                    font.weight: segment.checked ? Font.DemiBold : Font.Normal
-                    color: Theme.textPrimary
+                    font.weight: segment.checked ? Font.Bold : Font.Normal
+                    color: segment.checked ? Theme.textPrimary : Theme.textSecondary
                 }
             }
         }

@@ -23,9 +23,11 @@ qt_add_qml_module(iptvx_ui
     QML_FILES
         qml/Main.qml
         qml/Session.qml
-        qml/Sidebar.qml
+        qml/shell/CommandPalette.qml
+        qml/shell/Rail.qml
+        qml/shell/TopBar.qml
         qml/theme/Theme.qml
-        qml/pages/HomePage.qml
+        qml/pages/DashboardPage.qml
         qml/pages/LiveTvPage.qml
         qml/pages/SettingsPage.qml
         qml/player/VideoPlayer.qml
@@ -37,7 +39,7 @@ qt_add_qml_module(iptvx_ui
         qml/components/PillButton.qml
         qml/components/SearchField.qml
         qml/components/SegmentedControl.qml
-        qml/components/SidebarItem.qml
+        qml/components/Chip.qml
         qml/components/ToggleSwitch.qml
 )
 

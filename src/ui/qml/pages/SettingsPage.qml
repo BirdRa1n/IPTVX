@@ -37,8 +37,10 @@ Flickable {
         Rectangle {
             Layout.fillWidth: true
             implicitHeight: box.implicitHeight
-            radius: Theme.radiusMedium + 2
-            color: Theme.card
+            radius: Theme.radiusLarge
+            color: Theme.surface
+            border.width: 1
+            border.color: Theme.border
             ColumnLayout {
                 id: box
                 width: parent.width
@@ -68,13 +70,13 @@ Flickable {
         Layout.fillWidth: true
         Layout.leftMargin: Theme.space4
         implicitHeight: 1
-        color: Theme.separator
+        color: Theme.divider
     }
 
     ColumnLayout {
         id: column
         x: Theme.space7
-        y: Qt.platform.os === "osx" ? 36 : Theme.space6
+        y: Theme.space6
         width: Math.min(page.width - Theme.space7 * 2, 720)
         spacing: Theme.space6
 
@@ -98,7 +100,7 @@ Flickable {
             FormRow {
                 label: qsTr("Accent color")
                 Repeater {
-                    model: ["#0A64D6", "#5E3FD1", "#C2410C", "#0F7B5F", "#B4235A"]
+                    model: Theme.accentPresets.map(p => p.fill)
                     delegate: AbstractButton {
                         id: swatch
                         required property string modelData
@@ -109,7 +111,7 @@ Flickable {
                             radius: 12
                             color: swatch.modelData
                             border.width: Session.accent === swatch.modelData ? 3 : 0
-                            border.color: Theme.window
+                            border.color: Theme.surface
                             Rectangle {
                                 anchors.fill: parent
                                 anchors.margins: -3

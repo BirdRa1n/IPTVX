@@ -69,9 +69,9 @@ Popup {
 
     background: Rectangle {
         radius: Theme.radiusXL
-        color: Theme.window
+        color: Theme.surface
         border.width: Theme.dark ? 1 : 0
-        border.color: Theme.separator
+        border.color: Theme.divider
     }
 
     component FieldLabel: Label {
@@ -88,10 +88,10 @@ Popup {
         placeholderTextColor: Theme.textTertiary
         selectionColor: Theme.accentSoft
         background: Rectangle {
-            radius: Theme.radiusMedium - 2
-            color: Theme.field
-            border.width: parent.activeFocus ? 2 : 0
-            border.color: Theme.accent
+            radius: Theme.radiusMedium
+            color: Theme.bg
+            border.width: parent.activeFocus ? 2 : 1
+            border.color: parent.activeFocus ? Theme.accentText : Theme.border
         }
         onAccepted: sheet.submit()
     }
@@ -115,7 +115,7 @@ Popup {
                 Layout.preferredHeight: 30
                 Accessible.name: qsTr("Close")
                 onClicked: sheet.close()
-                background: Rectangle { radius: 15; color: Theme.field }
+                background: Rectangle { radius: 15; color: Theme.chip }
                 contentItem: Item { Icon { anchors.centerIn: parent; width: 13; height: 13; name: "close"; strokeWidth: 2.6; color: Theme.textSecondary } }
             }
         }
@@ -172,12 +172,12 @@ Popup {
                         radius: Theme.radiusMedium
                         color: dropZone.hovered ? Theme.accentSoft : "transparent"
                         border.width: 1.5
-                        border.color: dropZone.hovered ? Theme.accent : Theme.separator
+                        border.color: dropZone.hovered ? Theme.accentText : Theme.border
                         Behavior on color { ColorAnimation { duration: Theme.durationFast } }
                     }
                     contentItem: ColumnLayout {
                         spacing: Theme.space2
-                        Icon { Layout.alignment: Qt.AlignHCenter; Layout.preferredWidth: 26; Layout.preferredHeight: 26; name: "file"; color: Theme.accent }
+                        Icon { Layout.alignment: Qt.AlignHCenter; Layout.preferredWidth: 26; Layout.preferredHeight: 26; name: "file"; color: Theme.accentText }
                         Label {
                             Layout.alignment: Qt.AlignHCenter
                             Layout.maximumWidth: dropZone.width - 32

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Basic
 import IPTVX.UI
 
-// One row of the channel list: number, logo, name and group.
+// One row of the channel list: number · logo · name · group.
 ItemDelegate {
     id: control
 
@@ -12,35 +12,25 @@ ItemDelegate {
     property url logoUrl
     property bool current: false
 
-    implicitHeight: 52
+    implicitHeight: 56
     hoverEnabled: true
     padding: 0
     Accessible.name: channelName
 
     background: Rectangle {
-        radius: Theme.radiusSmall + 2
-        color: control.current ? Theme.window
-             : control.hovered ? Theme.cardHover : "transparent"
+        radius: Theme.radiusMedium
+        color: control.current ? Theme.raised : control.hovered ? Theme.hover : "transparent"
         border.width: control.current ? 1 : 0
-        border.color: Theme.separator
+        border.color: Theme.borderStrong
         Behavior on color { ColorAnimation { duration: Theme.durationFast } }
-
-        Rectangle {
-            visible: control.current
-            width: 3; height: 18; radius: 1.5
-            color: Theme.accent
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.verticalCenter: parent.verticalCenter
-        }
     }
 
     contentItem: Row {
-        spacing: 12
-        leftPadding: 10
+        spacing: 10
+        leftPadding: 8
 
         Label {
-            width: 30
+            width: 26
             text: control.channelNumber
             horizontalAlignment: Text.AlignRight
             font: Theme.caption
@@ -48,13 +38,14 @@ ItemDelegate {
             anchors.verticalCenter: parent.verticalCenter
         }
         ChannelLogo {
+            width: 38; height: 38
             name: control.channelName
             source: control.logoUrl
             anchors.verticalCenter: parent.verticalCenter
         }
         Column {
-            width: control.width - 30 - 34 - 12 * 2 - 10 - 12
-            spacing: 2
+            width: control.width - 26 - 38 - 10 * 2 - 8 - 10
+            spacing: 3
             anchors.verticalCenter: parent.verticalCenter
             Label {
                 width: parent.width
@@ -72,5 +63,15 @@ ItemDelegate {
                 elide: Text.ElideRight
             }
         }
+    }
+
+    // Accent marker for the playing channel.
+    Rectangle {
+        visible: control.current
+        width: 3; height: 20; radius: 1.5
+        color: Theme.accentText
+        anchors.left: parent.left
+        anchors.leftMargin: -1
+        anchors.verticalCenter: parent.verticalCenter
     }
 }

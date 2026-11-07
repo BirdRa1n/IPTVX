@@ -3,8 +3,8 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import IPTVX.UI
 
-// Centered illustration + message + optional action, with a gentle
-// entrance (fade + rise) every time it becomes visible.
+// Centered icon + message + optional action, with a gentle fade-and-rise
+// entrance every time it becomes visible.
 Item {
     id: root
 
@@ -27,22 +27,24 @@ Item {
 
         Rectangle {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: 72
-            Layout.preferredHeight: 72
-            radius: 22
+            Layout.preferredWidth: 64
+            Layout.preferredHeight: 64
+            radius: 18
             color: Theme.accentSoft
+            border.width: 1
+            border.color: Qt.alpha(Theme.accentText, 0.35)
             Icon {
                 anchors.centerIn: parent
-                width: 34; height: 34
+                width: 28; height: 28
                 name: root.iconName
-                color: Theme.accent
+                color: Theme.accentText
             }
         }
         Label {
             Layout.fillWidth: true
             Layout.topMargin: Theme.space2
             text: root.title
-            font: Theme.title2
+            font: Theme.title
             color: Theme.textPrimary
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
