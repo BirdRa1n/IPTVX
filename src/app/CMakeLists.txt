@@ -27,7 +27,7 @@ qt_add_translations(iptvx
     TS_FILE_DIR ${PROJECT_SOURCE_DIR}/i18n
     TS_FILE_BASE iptvx
     RESOURCE_PREFIX /i18n
-    SOURCE_TARGETS iptvx iptvx_ui)
+    SOURCE_TARGETS iptvx iptvx_ui iptvx_core)
 
 include(GNUInstallDirs)
 install(TARGETS iptvx
