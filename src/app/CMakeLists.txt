@@ -1,4 +1,6 @@
 qt_add_executable(iptvx
+    DevTools.cpp
+    DevTools.h
     main.cpp)
 
 set_target_properties(iptvx PROPERTIES
