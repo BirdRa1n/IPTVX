@@ -72,10 +72,14 @@ sequenceDiagram
   | `qml/shell` | `Rail`, `TopBar` (source switcher), `CommandPalette` |
   | `qml/components` | Reusable controls (`PillButton`, `Chip`, `SegmentedControl`, `SearchField`, `ToggleSwitch`, `ChannelLogo`, `Icon`, …) |
   | `qml/pages` | `DashboardPage`, `LiveTvPage`, `SettingsPage` |
-  | `qml/player` | `VideoPlayer` (Qt Multimedia) |
+  | `qml/player` | `VideoPlayer` (Live TV surface), `MiniPlayer` (in-app picture-in-picture) |
   | `qml/sheets` | Modal flows (`AddSourceSheet`) |
   | `qml/Session.qml` | UI session state + persisted preferences |
 
+* **Playback** — `Session.player` is the app's single `MediaPlayer`. It
+  outlives pages, so playback continues while browsing. The Live TV
+  `VideoPlayer` and the floating `MiniPlayer` only *borrow* its video output
+  (one decoder and one set of frame buffers for the whole app).
 * **Navigation** — `Session.page` drives a `StackView.replace`; pages are
   created on entry and destroyed on exit.
 * **Compilation** — QML is compiled ahead of time (`qmlcachegen`/`qmlsc`)

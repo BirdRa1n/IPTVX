@@ -50,7 +50,8 @@ IPTVnator). ✅ done · 🚧 in progress · ⏳ planned.
 | Per-stream HTTP headers (User-Agent, Referer) | ⏳ |
 | Optional libmpv backend | ⏳ |
 | External player (mpv / VLC / IINA) | ⏳ |
-| Picture-in-picture | ⏳ |
+| In-app mini player (picture-in-picture) | ✅ |
+| OS-level picture-in-picture window | ⏳ |
 
 ## Experience
 
@@ -78,4 +79,5 @@ IPTVnator). ✅ done · 🚧 in progress · ⏳ planned.
 | Item | Status |
 |---|---|
 | CI build + tests on macOS, Windows, Linux | ✅ |
+| App icon (icns / ico / hicolor + .desktop) | ✅ |
 | Signed macOS DMG, Windows installer, Linux AppImage | ⏳ |

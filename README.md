@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="resources/icons/iptvx-256.png" alt="IPTVX icon" width="112">
+
 # IPTVX
 
 **A fast, beautiful and memory‑frugal IPTV player for macOS, Windows and Linux — built with Qt 6 and modern C++.**
@@ -25,6 +27,7 @@
 |  |  |
 |---|---|
 | 🎨 **Workspace design** | Graphite surfaces with a vivid accent, compact icon rail with a spring‑animated selection, source switcher, source health cards and fluid transitions — in **dark and light** (or following the system), with four accent presets. |
+| 🪟 **Mini player** | Leave Live TV and the channel keeps playing in a draggable picture‑in‑picture window that snaps to the corners. |
 | ⌘ **Command palette** | `⌘/Ctrl+K` searches channels and runs commands (navigate, add/refresh sources, switch appearance) without leaving the keyboard. |
 | 🪶 **Built to be light** | Channels live in a compact columnar store (≈44 bytes + UTF‑8 text per channel), playlists are parsed as a stream, only one catalog is resident at a time and artwork is cached on disk. See [Memory strategy](docs/MEMORY.md). |
 | 📺 **Your sources** | M3U / M3U8 from a URL (cached for offline start) or a local file, and Xtream Codes accounts. Stalker portals are on the [roadmap](docs/ROADMAP.md). |

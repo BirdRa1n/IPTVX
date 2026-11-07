@@ -32,7 +32,13 @@ cmake --build --preset debug --target all_qmllint   # QML lint
 | `ci` | Release | Warnings are errors, LTO off |
 
 CMake options: `IPTVX_BUILD_TESTS` (ON), `IPTVX_WARNINGS_AS_ERRORS` (OFF),
-`IPTVX_ENABLE_LTO` (ON).
+`IPTVX_ENABLE_LTO` (ON), `IPTVX_BUILD_TOOLS` (OFF — icon renderer).
+
+Regenerate the app icons after editing `resources/icons/iptvx.svg`:
+
+```bash
+cmake --preset debug -DIPTVX_BUILD_TOOLS=ON && cmake --build --preset debug --target icons
+```
 
 ## Developer mode (sandbox, seeding, screenshots)
 

@@ -92,6 +92,26 @@ Platform font (SF Pro / Segoe UI / desktop font) — no font files shipped.
 | Pages | `qml/pages/DashboardPage.qml`, `LiveTvPage.qml`, `SettingsPage.qml` |
 | Components | `PillButton`, `Chip`, `SearchField`, `SegmentedControl`, `ToggleSwitch`, `ChannelRow`, `ChannelLogo`, `EmptyState`, `Icon` |
 
+## Mini player (in-app picture-in-picture)
+
+<img src="assets/mini-player-dark.png" alt="Mini player over Settings" width="640">
+
+When a channel is playing and the user leaves Live TV, a 336 × 189 mini
+player springs in at a corner of the content area and playback continues.
+It always shows the channel name (and the channel logo for audio-only or
+connecting streams); hovering reveals play/pause, *back to Live TV* and
+*close*. Drag it anywhere — on release it snaps to the nearest corner on a
+spring. Clicking the video returns to Live TV. Closing it stops playback.
+
+## App icon
+
+Master artwork: `resources/icons/iptvx.svg` — a graphite squircle on the
+macOS icon grid (824 px body on a 1024 px canvas) with a lime screen and
+play mark. Platform files (`iptvx.icns`, `iptvx.ico`, PNGs) are generated
+from it with `cmake -DIPTVX_BUILD_TOOLS=ON` and `--target icons`.
+
+<img src="../resources/icons/iptvx-256.png" alt="IPTVX app icon" width="128">
+
 ## Window chrome (macOS)
 
 `src/app/platform/WindowChrome_mac.mm` hides the native title text, makes
