@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  QT_VERSION: "6.9.*"
+  QT_VERSION: "6.12.0"
   QT_QPA_PLATFORM: offscreen
 
 jobs:
