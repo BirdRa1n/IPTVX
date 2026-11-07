@@ -16,6 +16,7 @@ target_link_libraries(iptvx PRIVATE
     Qt6::Gui
     Qt6::Quick
     Qt6::QuickControls2
+    iptvx_ui
     iptvx_uiplugin)
 
 iptvx_configure_target(iptvx)

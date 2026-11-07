@@ -9,12 +9,26 @@ qt_add_qml_module(iptvx_ui
     VERSION 1.0
     RESOURCE_PREFIX /qt/qml
     OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/IPTVX/UI
+    SOURCES
+        ArtworkNetworkFactory.cpp
+        ArtworkNetworkFactory.h
+        Library.cpp
+        Library.h
+        models/ChannelListModel.cpp
+        models/ChannelListModel.h
+        models/SourceListModel.cpp
+        models/SourceListModel.h
     QML_FILES
         qml/Main.qml
 )
 
-target_link_libraries(iptvx_ui PRIVATE
-    Qt6::Quick
-    Qt6::QuickControls2)
+target_include_directories(iptvx_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(iptvx_ui
+    PUBLIC
+        iptvx_core
+        Qt6::Quick
+    PRIVATE
+        Qt6::QuickControls2)
 
 iptvx_configure_target(iptvx_ui)

@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MIT
 // IPTVX application entry point.
 
+#include "ArtworkNetworkFactory.h"
+
 #include <QGuiApplication>
 #include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QStandardPaths>
 #include <QTranslator>
 
 using namespace Qt::StringLiterals;
@@ -40,6 +43,9 @@ int main(int argc, char *argv[])
     installTranslator(app, translator);
 
     QQmlApplicationEngine engine;
+    iptvx::ui::ArtworkNetworkFactory artworkFactory(
+        QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + u"/artwork"_s);
+    engine.setNetworkAccessManagerFactory(&artworkFactory);
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreationFailed, &app,
         [] { QCoreApplication::exit(EXIT_FAILURE); }, Qt::QueuedConnection);
