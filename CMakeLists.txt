@@ -32,5 +32,6 @@ qt_policy(SET QTP0004 NEW)
 # ---------------------------------------------------------------------------
 # Targets
 # ---------------------------------------------------------------------------
+add_subdirectory(src/core)
 add_subdirectory(src/ui)
 add_subdirectory(src/app)
