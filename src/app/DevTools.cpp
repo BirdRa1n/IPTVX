@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QUrl>
@@ -21,6 +22,8 @@ DevOptions DevOptions::fromEnvironment()
     o.seedPlaylist = qEnvironmentVariable("IPTVX_SEED_PLAYLIST");
     o.page = qEnvironmentVariable("IPTVX_PAGE");
     o.appearance = qEnvironmentVariable("IPTVX_APPEARANCE");
+    o.openPalette = qEnvironmentVariableIsSet("IPTVX_PALETTE");
+    o.palette = qEnvironmentVariable("IPTVX_PALETTE");
     o.screenshotPath = qEnvironmentVariable("IPTVX_SCREENSHOT");
     bool ok = false;
     const int delay = qEnvironmentVariableIntValue("IPTVX_SCREENSHOT_DELAY", &ok);
@@ -41,6 +44,12 @@ void DevOptions::applyEarly() const
                            QStandardPaths::AppConfigLocation }) {
         QDir(QStandardPaths::writableLocation(location)).removeRecursively();
     }
+    // QSettings does not follow QStandardPaths test mode (macOS writes to
+    // ~/Library/Preferences, Windows to the registry). Redirect it to an INI
+    // file inside the sandbox so preferences never leak into the real profile.
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    QSettings::setPath(QSettings::IniFormat, QSettings::UserScope,
+                       QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
 }
 
 void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
@@ -54,6 +63,19 @@ void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
         session->setProperty("appearance", appearance);
     if (session && !page.isEmpty())
         session->setProperty("page", page);
+
+    if (openPalette && !engine.rootObjects().isEmpty()) {
+        const QString query = palette;
+        // Wait for the seeded source to load before typing the query.
+        QTimer::singleShot(800, engine.rootObjects().constFirst(), [&engine, query] {
+            QObject *popup = engine.rootObjects().constFirst()->findChild<QObject *>(u"commandPalette"_s);
+            if (!popup)
+                return;
+            QMetaObject::invokeMethod(popup, "open");
+            if (QObject *field = popup->findChild<QObject *>(u"paletteQuery"_s))
+                field->setProperty("text", query);
+        });
+    }
 
     if (screenshotPath.isEmpty() || engine.rootObjects().isEmpty())
         return;

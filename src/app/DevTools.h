@@ -15,6 +15,7 @@ namespace iptvx::app {
 /// | IPTVX_SEED_PLAYLIST=f  | Add the M3U file `f` when the library is empty     |
 /// | IPTVX_PAGE=live        | Open a page on start (home, live, settings)        |
 /// | IPTVX_APPEARANCE=dark  | Force light / dark appearance                      |
+/// | IPTVX_PALETTE=query    | Open the command palette with `query` typed in     |
 /// | IPTVX_SCREENSHOT=p.png | Save a window capture after IPTVX_SCREENSHOT_DELAY |
 /// |                        | ms (default 2500) and quit                         |
 ///
@@ -26,6 +27,8 @@ struct DevOptions
     QString seedPlaylist;
     QString page;
     QString appearance;
+    QString palette;
+    bool openPalette = false;
     QString screenshotPath;
     int screenshotDelayMs = 2500;
 
