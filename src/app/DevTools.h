@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
+#include <QSize>
 #include <QString>
 
 class QQmlApplicationEngine;
@@ -19,6 +20,10 @@ namespace iptvx::app {
 /// | IPTVX_PLAY=n           | Select channel number `n` once the catalog loads   |
 /// | IPTVX_SCREENSHOT=p.png | Save a window capture after IPTVX_SCREENSHOT_DELAY |
 /// |                        | ms (default 2500) and quit                         |
+/// | IPTVX_SCREENSHOT_NATIVE=1 | macOS: capture with the native frame (traffic   |
+/// |                        | lights, shadow) via `screencapture -l`             |
+/// | IPTVX_SHEET=add        | Open the add-source sheet                          |
+/// | IPTVX_WINDOW_SIZE=WxH  | Resize the window (documentation captures)         |
 ///
 /// Setting IPTVX_SCREENSHOT or IPTVX_SEED_PLAYLIST implies IPTVX_SANDBOX, so
 /// automated runs never touch the user's real library.
@@ -33,6 +38,9 @@ struct DevOptions
     int playNumber = 0;
     QString screenshotPath;
     int screenshotDelayMs = 2500;
+    bool nativeScreenshot = false;
+    QString sheet;
+    QSize windowSize;
 
     static DevOptions fromEnvironment();
     void applyEarly() const;

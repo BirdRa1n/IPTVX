@@ -9,4 +9,9 @@ QRectF styleWindowChrome(QWindow *)
     return {};
 }
 
+qint64 nativeWindowNumber(QWindow *)
+{
+    return 0;
+}
+
 } // namespace iptvx::app

@@ -64,4 +64,12 @@ QRectF styleWindowChrome(QWindow *window)
     return QRectF(controls.origin.x, height - NSMaxY(controls), controls.size.width, controls.size.height);
 }
 
+qint64 nativeWindowNumber(QWindow *window)
+{
+    if (!window)
+        return 0;
+    auto *view = reinterpret_cast<NSView *>(window->winId());
+    return view.window ? qint64(view.window.windowNumber) : 0;
+}
+
 } // namespace iptvx::app

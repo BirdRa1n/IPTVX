@@ -138,7 +138,7 @@ ApplicationWindow {
                         window.width - Theme.railWidth, window.height - window.topBarHeight)
     }
 
-    AddSourceSheet { id: addSheet }
+    AddSourceSheet { id: addSheet; objectName: "addSourceSheet" }
     CommandPalette {
         id: commandPalette
         objectName: "commandPalette"

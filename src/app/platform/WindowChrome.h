@@ -17,4 +17,7 @@ namespace iptvx::app {
 /// Other platforms: no-op, returns an empty rect.
 QRectF styleWindowChrome(QWindow *window);
 
+/// Native window number usable with `screencapture -l` (macOS), else 0.
+qint64 nativeWindowNumber(QWindow *window);
+
 } // namespace iptvx::app
