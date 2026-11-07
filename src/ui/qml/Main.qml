@@ -25,7 +25,9 @@ ApplicationWindow {
     // Union rect of the native window controls (macOS traffic lights), set by
     // the app after styling the native title bar. Empty on other platforms.
     property rect titleBarControls: Qt.rect(0, 0, 0, 0)
-    readonly property bool nativeControls: titleBarControls.width > 0
+    // In full screen macOS hides the traffic lights (and the app hides the
+    // native toolbar), so no title-bar strip has to be reserved.
+    readonly property bool nativeControls: titleBarControls.width > 0 && visibility !== Window.FullScreen
     // The top bar is as tall as the native title bar, so its controls share
     // the traffic lights' vertical centre.
     readonly property int topBarHeight: nativeControls

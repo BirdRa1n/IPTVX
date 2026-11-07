@@ -25,6 +25,23 @@ QRectF styleWindowChrome(QWindow *window)
     if (!nsWindow.toolbar) {
         NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"io.github.birdra1n.iptvx.toolbar"];
         nsWindow.toolbar = toolbar;
+
+        // In full screen AppKit keeps the toolbar as an opaque strip above
+        // the content (the traffic lights are hidden there anyway), which
+        // would cover the app's own top bar. Hide it while full screen.
+        NSNotificationCenter *center = NSNotificationCenter.defaultCenter;
+        [center addObserverForName:NSWindowWillEnterFullScreenNotification
+                            object:nsWindow
+                             queue:nil
+                        usingBlock:^(NSNotification *note) {
+                            static_cast<NSWindow *>(note.object).toolbar.visible = NO;
+                        }];
+        [center addObserverForName:NSWindowDidExitFullScreenNotification
+                            object:nsWindow
+                             queue:nil
+                        usingBlock:^(NSNotification *note) {
+                            static_cast<NSWindow *>(note.object).toolbar.visible = YES;
+                        }];
     }
     nsWindow.toolbarStyle = NSWindowToolbarStyleUnified;
     nsWindow.titlebarSeparatorStyle = NSTitlebarSeparatorStyleNone; // QML draws its own hairline
