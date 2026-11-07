@@ -1,0 +1,15 @@
+{
+  "tag_name": "v0.3.0",
+  "name": "IPTVX 0.3.0",
+  "html_url": "https://github.com/example/iptvx/releases/tag/v0.3.0",
+  "published_at": "2026-11-20T12:00:00Z",
+  "body": "## What's new\n\n- Something nice",
+  "assets": [
+    { "name": "IPTVX-0.3.0-macos-arm64.zip", "size": 1000, "digest": "sha256:ABCDEF0123", "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/IPTVX-0.3.0-macos-arm64.zip" },
+    { "name": "IPTVX-0.3.0-macos-x86_64.zip", "size": 1001, "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/IPTVX-0.3.0-macos-x86_64.zip" },
+    { "name": "IPTVX-0.3.0-linux-x86_64.AppImage", "size": 1002, "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/IPTVX-0.3.0-linux-x86_64.AppImage" },
+    { "name": "IPTVX-0.3.0-linux-aarch64.AppImage", "size": 1003, "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/IPTVX-0.3.0-linux-aarch64.AppImage" },
+    { "name": "IPTVX-0.3.0-windows-x64-setup.exe", "size": 1004, "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/IPTVX-0.3.0-windows-x64-setup.exe" },
+    { "name": "SHA256SUMS.txt", "size": 300, "browser_download_url": "https://github.com/example/iptvx/releases/download/v0.3.0/SHA256SUMS.txt" }
+  ]
+}

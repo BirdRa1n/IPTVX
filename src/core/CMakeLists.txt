@@ -15,6 +15,12 @@ qt_add_library(iptvx_core STATIC
     storage/Database.h
     storage/SourceRepository.cpp
     storage/SourceRepository.h
+    update/Release.cpp
+    update/Release.h
+    update/UpdateInstaller.cpp
+    update/UpdateInstaller.h
+    update/UpdateService.cpp
+    update/UpdateService.h
     util/StringTable.h
 )
 
