@@ -30,6 +30,7 @@ qt_add_qml_module(iptvx_ui
         qml/pages/DashboardPage.qml
         qml/pages/LiveTvPage.qml
         qml/pages/SettingsPage.qml
+        qml/player/MiniPlayer.qml
         qml/player/VideoPlayer.qml
         qml/sheets/AddSourceSheet.qml
         qml/components/ChannelRow.qml

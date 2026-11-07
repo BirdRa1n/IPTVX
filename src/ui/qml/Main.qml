@@ -129,6 +129,15 @@ ApplicationWindow {
         }
     }
 
+    // In-app picture-in-picture: keeps the current channel on screen while
+    // browsing other pages. Lives in the content area (below the top bar,
+    // right of the rail).
+    MiniPlayer {
+        wanted: Session.page !== "live" && !window.immersive
+        bounds: Qt.rect(Theme.railWidth, window.topBarHeight,
+                        window.width - Theme.railWidth, window.height - window.topBarHeight)
+    }
+
     AddSourceSheet { id: addSheet }
     CommandPalette {
         id: commandPalette
