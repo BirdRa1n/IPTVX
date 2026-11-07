@@ -22,6 +22,17 @@ ApplicationWindow {
 
     property bool immersive: false
 
+    // Union rect of the native window controls (macOS traffic lights), set by
+    // the app after styling the native title bar. Empty on other platforms.
+    property rect titleBarControls: Qt.rect(0, 0, 0, 0)
+    readonly property bool nativeControls: titleBarControls.width > 0
+    // The top bar is as tall as the native title bar, so its controls share
+    // the traffic lights' vertical centre.
+    readonly property int topBarHeight: nativeControls
+        ? Math.max(44, Math.round(2 * (titleBarControls.y + titleBarControls.height / 2)))
+        : 62
+    readonly property real controlsRight: nativeControls ? titleBarControls.x + titleBarControls.width : 0
+
     // Draw edge to edge: the rail and top bar handle the title-bar inset.
     topPadding: 0
     leftPadding: 0
@@ -33,6 +44,7 @@ ApplicationWindow {
         spacing: 0
 
         Rail {
+            headerHeight: window.nativeControls ? window.topBarHeight : 0
             Layout.fillHeight: true
             Layout.preferredWidth: window.immersive ? 0 : Theme.railWidth
             visible: Layout.preferredWidth > 0
@@ -47,6 +59,9 @@ ApplicationWindow {
             spacing: 0
 
             TopBar {
+                implicitHeight: window.topBarHeight
+                // Keep clear of the traffic lights when they spill past the rail.
+                leadingInset: Math.max(18, window.controlsRight + 18 - Theme.railWidth)
                 Layout.fillWidth: true
                 Layout.preferredHeight: window.immersive ? 0 : implicitHeight
                 visible: Layout.preferredHeight > 0

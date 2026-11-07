@@ -13,10 +13,26 @@ Rectangle {
     signal paletteRequested()
     signal addSourceRequested()
 
-    // macOS traffic lights sit over the rail (64 px), so the bar needs no
-    // extra inset.
+    // Left padding; grows on macOS when the traffic lights extend past the
+    // rail. Height is set by Main.qml to match the native title bar.
+    property real leadingInset: 18
+
     implicitHeight: 62
     color: Theme.bg
+
+    // The bar doubles as the window title bar: drag to move, double-click
+    // to zoom (buttons inside keep their own clicks).
+    DragHandler {
+        target: null
+        grabPermissions: PointerHandler.CanTakeOverFromAnything
+        onActiveChanged: if (active) root.Window.window.startSystemMove()
+    }
+    TapHandler {
+        onDoubleTapped: {
+            const w = root.Window.window
+            w.visibility === Window.Maximized ? w.showNormal() : w.showMaximized()
+        }
+    }
 
     Rectangle {
         anchors.bottom: parent.bottom
@@ -27,7 +43,7 @@ Rectangle {
 
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 18
+        anchors.leftMargin: root.leadingInset
         anchors.rightMargin: 18
         spacing: 12
 

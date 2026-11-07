@@ -11,13 +11,38 @@ Rectangle {
 
     signal addSourceRequested()
 
+    // Height of the native title-bar strip at the top (macOS traffic
+    // lights live there); 0 when the platform draws its own frame.
+    property real headerHeight: 0
+
     implicitWidth: Theme.railWidth
     color: Theme.bg
 
+    // The header strip belongs to the title bar: same hairline as the top
+    // bar, and it drags the window.
+    Rectangle {
+        visible: root.headerHeight > 0
+        y: root.headerHeight - 1
+        width: parent.width
+        height: 1
+        color: Theme.divider
+    }
+    Item {
+        width: parent.width
+        height: root.headerHeight
+        DragHandler {
+            target: null
+            onActiveChanged: if (active) root.Window.window.startSystemMove()
+        }
+    }
+
+    // Vertical hairline; starts below the title-bar strip so it never runs
+    // through the traffic lights.
     Rectangle {
         anchors.right: parent.right
+        y: root.headerHeight
         width: 1
-        height: parent.height
+        height: parent.height - root.headerHeight
         color: Theme.divider
     }
 
@@ -61,7 +86,7 @@ Rectangle {
     Column {
         id: top
         width: parent.width
-        topPadding: Qt.platform.os === "osx" ? 40 : 14
+        topPadding: root.headerHeight > 0 ? root.headerHeight + 12 : 14
         spacing: 6
 
         Rectangle {
