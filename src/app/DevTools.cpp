@@ -24,6 +24,7 @@ DevOptions DevOptions::fromEnvironment()
     o.appearance = qEnvironmentVariable("IPTVX_APPEARANCE");
     o.openPalette = qEnvironmentVariableIsSet("IPTVX_PALETTE");
     o.palette = qEnvironmentVariable("IPTVX_PALETTE");
+    o.playNumber = qEnvironmentVariableIntValue("IPTVX_PLAY");
     o.screenshotPath = qEnvironmentVariable("IPTVX_SCREENSHOT");
     bool ok = false;
     const int delay = qEnvironmentVariableIntValue("IPTVX_SCREENSHOT_DELAY", &ok);
@@ -63,6 +64,13 @@ void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
         session->setProperty("appearance", appearance);
     if (session && !page.isEmpty())
         session->setProperty("page", page);
+
+    if (session && playNumber > 0) {
+        const int number = playNumber;
+        QTimer::singleShot(800, session, [session, number] {
+            QMetaObject::invokeMethod(session, "playNumber", Q_ARG(QVariant, number));
+        });
+    }
 
     if (openPalette && !engine.rootObjects().isEmpty()) {
         const QString query = palette;

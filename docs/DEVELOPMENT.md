@@ -45,6 +45,7 @@ Environment variables read by `src/app/DevTools.cpp`:
 | `IPTVX_PAGE=home\|live\|settings` | Initial page |
 | `IPTVX_APPEARANCE=light\|dark\|system` | Initial appearance |
 | `IPTVX_PALETTE=<query>` | Open the command palette with the query typed |
+| `IPTVX_PLAY=<n>` | Select channel number `n` once the catalog loads (autoplay check) |
 | `IPTVX_SCREENSHOT=<out.png>` | Save a window capture and quit (implies sandbox) |
 | `IPTVX_SCREENSHOT_DELAY=<ms>` | Delay before the capture (default 2500) |
 
