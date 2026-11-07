@@ -2,6 +2,7 @@
 #include "DevTools.h"
 
 #include "Library.h"
+#include "Updates.h"
 #include "platform/WindowChrome.h"
 
 #include <QCoreApplication>
@@ -89,6 +90,7 @@ DevOptions DevOptions::fromEnvironment()
     o.playNumber = qEnvironmentVariableIntValue("IPTVX_PLAY");
     o.nativeScreenshot = qEnvironmentVariableIntValue("IPTVX_SCREENSHOT_NATIVE") != 0;
     o.sheet = qEnvironmentVariable("IPTVX_SHEET");
+    o.updatePreview = qEnvironmentVariable("IPTVX_UPDATE_PREVIEW");
     if (const QStringList wh = qEnvironmentVariable("IPTVX_WINDOW_SIZE").split(u'x'); wh.size() == 2)
         o.windowSize = QSize(wh[0].toInt(), wh[1].toInt());
     o.screenshotPath = qEnvironmentVariable("IPTVX_SCREENSHOT");
@@ -105,6 +107,8 @@ void DevOptions::applyEarly() const
 {
     if (!sandbox)
         return;
+    // Automated runs must not hit the GitHub API.
+    qputenv("IPTVX_NO_UPDATE_CHECK", "1");
     // Redirects AppData/Cache/Config to ~/.qttest/… and starts clean.
     QStandardPaths::setTestModeEnabled(true);
     for (auto location : { QStandardPaths::AppDataLocation, QStandardPaths::CacheLocation,
@@ -130,6 +134,13 @@ void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
         session->setProperty("appearance", appearance);
     if (session && !page.isEmpty())
         session->setProperty("page", page);
+
+    if (!updatePreview.isEmpty()) {
+        if (auto *updates = engine.singletonInstance<iptvx::ui::Updates *>("IPTVX.UI", "Updates")) {
+            const QString version = updatePreview;
+            QTimer::singleShot(700, updates, [updates, version] { updates->previewRelease(version); });
+        }
+    }
 
     if (session && playNumber > 0) {
         const int number = playNumber;

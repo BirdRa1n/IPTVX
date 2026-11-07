@@ -24,6 +24,9 @@ namespace iptvx::app {
 /// |                        | lights, shadow) via `screencapture -l`             |
 /// | IPTVX_SHEET=add        | Open the add-source sheet                          |
 /// | IPTVX_WINDOW_SIZE=WxH  | Resize the window (documentation captures)         |
+/// | IPTVX_UPDATE_PREVIEW=v | Pretend release `v` is available (update UI)       |
+///
+/// The sandbox also disables the startup update check.
 ///
 /// Setting IPTVX_SCREENSHOT or IPTVX_SEED_PLAYLIST implies IPTVX_SANDBOX, so
 /// automated runs never touch the user's real library.
@@ -41,6 +44,7 @@ struct DevOptions
     bool nativeScreenshot = false;
     QString sheet;
     QSize windowSize;
+    QString updatePreview;
 
     static DevOptions fromEnvironment();
     void applyEarly() const;
