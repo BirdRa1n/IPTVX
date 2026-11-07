@@ -12,6 +12,7 @@ Rectangle {
 
     signal paletteRequested()
     signal addSourceRequested()
+    signal updateRequested()
 
     // Left padding; grows on macOS when the traffic lights extend past the
     // rail. Height is set by Main.qml to match the native title bar.
@@ -189,6 +190,55 @@ Rectangle {
             font: Theme.callout
             color: Theme.textTertiary
             elide: Text.ElideRight
+        }
+
+        // ---- Update available pill --------------------------------------
+        AbstractButton {
+            id: updatePill
+            readonly property bool active: Updates.state === Updates.Available
+                                           || Updates.state === Updates.Downloading
+                                           || Updates.state === Updates.ReadyToInstall
+            visible: active
+            Layout.preferredHeight: 32
+            implicitWidth: pillRow.implicitWidth + 24
+            hoverEnabled: true
+            Accessible.name: pillLabel.text
+            onClicked: root.updateRequested()
+            opacity: active ? 1 : 0
+            scale: active ? 1 : 0.9
+            Behavior on opacity { NumberAnimation { duration: Theme.durationMedium } }
+            Behavior on scale { NumberAnimation { duration: Theme.durationSlow; easing.type: Easing.OutBack } }
+            background: Rectangle {
+                radius: 16
+                color: updatePill.hovered ? Qt.alpha(Theme.accentText, 0.2) : Theme.accentSoft
+                border.width: 1
+                border.color: Qt.alpha(Theme.accentText, 0.45)
+            }
+            contentItem: Item {
+                implicitWidth: pillRow.implicitWidth
+                Row {
+                    id: pillRow
+                    anchors.centerIn: parent
+                    spacing: 8
+                    Icon {
+                        name: Updates.state === Updates.ReadyToInstall ? "refresh" : "download"
+                        width: 14; height: 14
+                        strokeWidth: 2.4
+                        color: Theme.accentText
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Label {
+                        id: pillLabel
+                        text: Updates.state === Updates.Downloading
+                              ? qsTr("Updating… %1%").arg(Math.round(Updates.progress * 100))
+                              : Updates.state === Updates.ReadyToInstall ? qsTr("Restart to update")
+                              : qsTr("Update %1").arg(Updates.latestVersion)
+                        font: Theme.headline
+                        color: Theme.accentText
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+            }
         }
 
         // ---- Search / command palette trigger ---------------------------

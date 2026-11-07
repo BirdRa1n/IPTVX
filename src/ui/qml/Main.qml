@@ -70,6 +70,7 @@ ApplicationWindow {
                 clip: true
                 onPaletteRequested: commandPalette.open()
                 onAddSourceRequested: addSheet.open()
+                onUpdateRequested: updateSheet.open()
             }
 
             // Pages are created on demand and destroyed when left (StackView
@@ -113,7 +114,7 @@ ApplicationWindow {
     }
     Component {
         id: settingsPage
-        SettingsPage {}
+        SettingsPage { onUpdateRequested: updateSheet.open() }
     }
 
     Connections {
@@ -139,6 +140,18 @@ ApplicationWindow {
     }
 
     AddSourceSheet { id: addSheet; objectName: "addSourceSheet" }
+    UpdateSheet { id: updateSheet; objectName: "updateSheet" }
+
+    // Check GitHub for a newer release shortly after launch; open the sheet
+    // automatically the first time one is found in this session.
+    Component.onCompleted: Updates.checkOnStartup()
+    Connections {
+        target: Updates
+        function onStateChanged() {
+            if (Updates.state === Updates.Available && !Updates.dismissed && !updateSheet.opened)
+                updateSheet.open()
+        }
+    }
     CommandPalette {
         id: commandPalette
         objectName: "commandPalette"

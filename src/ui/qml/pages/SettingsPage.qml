@@ -9,6 +9,8 @@ import IPTVX.UI
 Flickable {
     id: page
 
+    signal updateRequested()
+
     contentHeight: column.implicitHeight + Theme.space7 * 2
     clip: true
     boundsBehavior: Flickable.StopAtBounds
@@ -178,7 +180,44 @@ Flickable {
             title: qsTr("About")
             FormRow {
                 label: qsTr("Version")
-                Label { text: Qt.application.version; font: Theme.body; color: Theme.textSecondary }
+                Label { text: Qt.application.version + " · " + Updates.platformLabel; font: Theme.body; color: Theme.textSecondary }
+            }
+            Divider {}
+            FormRow {
+                label: {
+                    switch (Updates.state) {
+                    case Updates.Checking: return qsTr("Checking for updates…")
+                    case Updates.UpToDate: return qsTr("IPTVX is up to date")
+                    case Updates.Available: return qsTr("Version %1 is available").arg(Updates.latestVersion)
+                    case Updates.Downloading: return qsTr("Downloading update… %1%").arg(Math.round(Updates.progress * 100))
+                    case Updates.ReadyToInstall: return qsTr("Update ready to install")
+                    case Updates.Failed: return qsTr("Update check failed")
+                    }
+                    return qsTr("Updates")
+                }
+                PillButton {
+                    text: Updates.state === Updates.Available || Updates.state === Updates.ReadyToInstall
+                          ? qsTr("View update") : qsTr("Check now")
+                    prominent: Updates.state === Updates.Available || Updates.state === Updates.ReadyToInstall
+                    implicitHeight: 30
+                    enabled: Updates.state !== Updates.Checking && Updates.state !== Updates.Downloading
+                    onClicked: {
+                        if (Updates.state === Updates.Available || Updates.state === Updates.ReadyToInstall) {
+                            Updates.dismissed = false
+                            page.updateRequested()
+                        } else {
+                            Updates.check()
+                        }
+                    }
+                }
+            }
+            Divider {}
+            FormRow {
+                label: qsTr("Check for updates on launch")
+                ToggleSwitch {
+                    checked: Updates.autoCheck
+                    onToggled: Updates.autoCheck = checked
+                }
             }
             Divider {}
             FormRow {

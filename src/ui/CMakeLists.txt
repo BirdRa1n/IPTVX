@@ -16,6 +16,8 @@ qt_add_qml_module(iptvx_ui
         ArtworkNetworkFactory.h
         Library.cpp
         Library.h
+        Updates.cpp
+        Updates.h
         models/ChannelListModel.cpp
         models/ChannelListModel.h
         models/SourceListModel.cpp
@@ -33,6 +35,7 @@ qt_add_qml_module(iptvx_ui
         qml/player/MiniPlayer.qml
         qml/player/VideoPlayer.qml
         qml/sheets/AddSourceSheet.qml
+        qml/sheets/UpdateSheet.qml
         qml/components/ChannelRow.qml
         qml/components/EmptyState.qml
         qml/components/ChannelLogo.qml
@@ -53,5 +56,9 @@ target_link_libraries(iptvx_ui
     PRIVATE
         Qt6::QuickControls2
         Qt6::Multimedia)
+
+# GitHub repository queried for updates (owner/name).
+set(IPTVX_UPDATE_REPO "BirdRa1n/IPTVX" CACHE STRING "GitHub repository that publishes IPTVX releases")
+target_compile_definitions(iptvx_ui PRIVATE IPTVX_UPDATE_REPO="${IPTVX_UPDATE_REPO}")
 
 iptvx_configure_target(iptvx_ui)
