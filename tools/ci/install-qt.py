@@ -50,7 +50,10 @@ def main() -> int:
     wanted += [f"qt.qt6.{compact}.addons.{m}.{args.arch}" for m in args.modules]
 
     out = Path(args.out)
-    out.mkdir(parents=True, exist_ok=True)
+    # Archives in this layout are flat (bin/, lib/, include/…): extract them
+    # straight into <out>/<version>/<toolchain>, the layout aqtinstall uses.
+    qt_dir = out / args.version / args.toolchain
+    qt_dir.mkdir(parents=True, exist_ok=True)
     for name in wanted:
         package = packages.get(name)
         if package is None:
@@ -70,10 +73,9 @@ def main() -> int:
                 return 1
             path = out / archive
             path.write_bytes(data)
-            subprocess.run(["7z", "x", "-y", f"-o{out}", str(path)], check=True, stdout=subprocess.DEVNULL)
+            subprocess.run(["7z", "x", "-y", f"-o{qt_dir}", str(path)], check=True, stdout=subprocess.DEVNULL)
             path.unlink()
 
-    qt_dir = out / args.version / args.toolchain
     if not (qt_dir / "bin").is_dir():
         print(f"error: {qt_dir} was not created", file=sys.stderr)
         return 1
