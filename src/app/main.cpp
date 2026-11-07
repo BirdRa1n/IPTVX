@@ -6,6 +6,7 @@
 #include "platform/WindowChrome.h"
 
 #include <QGuiApplication>
+#include <QIcon>
 #include <QLocale>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -37,6 +38,9 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName(u"IPTVX"_s);
     QGuiApplication::setOrganizationName(u"IPTVX"_s);
     QGuiApplication::setApplicationVersion(QStringLiteral(IPTVX_VERSION));
+    // Window/taskbar icon on Windows and Linux (macOS uses the bundle icns).
+    QGuiApplication::setWindowIcon(QIcon(u":/icons/iptvx-256.png"_s));
+    QGuiApplication::setDesktopFileName(u"io.github.birdra1n.iptvx"_s);
 
     // Developer mode must be configured before anything touches the
     // database or settings (see docs/DEVELOPMENT.md).

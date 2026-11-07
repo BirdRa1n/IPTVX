@@ -13,6 +13,22 @@ else()
 endif()
 target_include_directories(iptvx PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
+# ---- App icon -------------------------------------------------------------
+# Master artwork: resources/icons/iptvx.svg (regenerate with --target icons).
+set(IPTVX_ICONS ${PROJECT_SOURCE_DIR}/resources/icons)
+qt_add_resources(iptvx "app_icon"
+    PREFIX /icons
+    BASE ${IPTVX_ICONS}
+    FILES ${IPTVX_ICONS}/iptvx-256.png)
+if(APPLE)
+    target_sources(iptvx PRIVATE ${IPTVX_ICONS}/iptvx.icns)
+    set_source_files_properties(${IPTVX_ICONS}/iptvx.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set_target_properties(iptvx PROPERTIES MACOSX_BUNDLE_ICON_FILE iptvx.icns)
+elseif(WIN32)
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/iptvx_icon.rc "IDI_ICON1 ICON \"${IPTVX_ICONS}/iptvx.ico\"\n")
+    target_sources(iptvx PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/iptvx_icon.rc)
+endif()
+
 set_target_properties(iptvx PROPERTIES
     OUTPUT_NAME IPTVX
     MACOSX_BUNDLE TRUE
@@ -43,3 +59,14 @@ include(GNUInstallDirs)
 install(TARGETS iptvx
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+if(UNIX AND NOT APPLE)
+    install(FILES ${PROJECT_SOURCE_DIR}/resources/linux/io.github.birdra1n.iptvx.desktop
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+    install(FILES ${IPTVX_ICONS}/iptvx-256.png
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/256x256/apps
+        RENAME io.github.birdra1n.iptvx.png)
+    install(FILES ${IPTVX_ICONS}/iptvx.svg
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps
+        RENAME io.github.birdra1n.iptvx.svg)
+endif()

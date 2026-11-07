@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=IPTVX
+GenericName=IPTV Player
+Comment=Fast, memory-frugal IPTV player
+Comment[pt_BR]=Player de IPTV rápido e leve
+Exec=IPTVX %U
+Icon=io.github.birdra1n.iptvx
+Terminal=false
+Categories=AudioVideo;Video;Player;TV;
+MimeType=audio/x-mpegurl;application/vnd.apple.mpegurl;
+StartupWMClass=IPTVX
