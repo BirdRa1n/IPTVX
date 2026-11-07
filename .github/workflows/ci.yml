@@ -22,7 +22,7 @@ jobs:
       matrix:
         include:
           - name: macOS
-            os: macos-14
+            os: macos-15
             preset: ci           # warnings are errors
           - name: Linux
             os: ubuntu-24.04
