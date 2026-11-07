@@ -35,3 +35,8 @@ qt_policy(SET QTP0004 NEW)
 add_subdirectory(src/core)
 add_subdirectory(src/ui)
 add_subdirectory(src/app)
+
+if(IPTVX_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
