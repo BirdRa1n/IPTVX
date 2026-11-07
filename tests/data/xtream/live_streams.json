@@ -1,0 +1,5 @@
+[
+  {"stream_id":101,"name":"News One","stream_icon":"http://img.example.com/n.png","epg_channel_id":"news.one","category_id":"1","tv_archive_duration":"3"},
+  {"stream_id":"102","name":"Sport Plus","category_id":"2"},
+  {"name":"Broken entry without id"}
+]
