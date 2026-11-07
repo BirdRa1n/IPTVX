@@ -10,7 +10,7 @@
 ![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-<img src="docs/assets/home-dark.png" alt="IPTVX home screen in dark mode" width="860">
+<img src="docs/assets/home-dark.png" alt="IPTVX dashboard in dark mode" width="860">
 
 </div>
 
@@ -24,7 +24,8 @@
 
 |  |  |
 |---|---|
-| 🎨 **Aurora design** | A SwiftUI‑inspired interface: translucent sidebar with a spring‑animated selection, large titles, inset forms, glass player controls and fluid page transitions. Light, dark and system appearance with custom accent colors. |
+| 🎨 **Workspace design** | Graphite surfaces with a vivid accent, compact icon rail with a spring‑animated selection, source switcher, source health cards and fluid transitions — in **dark and light** (or following the system), with four accent presets. |
+| ⌘ **Command palette** | `⌘/Ctrl+K` searches channels and runs commands (navigate, add/refresh sources, switch appearance) without leaving the keyboard. |
 | 🪶 **Built to be light** | Channels live in a compact columnar store (≈44 bytes + UTF‑8 text per channel), playlists are parsed as a stream, only one catalog is resident at a time and artwork is cached on disk. See [Memory strategy](docs/MEMORY.md). |
 | 📺 **Your sources** | M3U / M3U8 from a URL (cached for offline start) or a local file, and Xtream Codes accounts. Stalker portals are on the [roadmap](docs/ROADMAP.md). |
 | ⚡ **Native & fast** | C++20 core, QML compiled ahead of time, playback through Qt Multimedia's FFmpeg backend, heavy work on worker threads. |
@@ -33,11 +34,11 @@
 
 ## 📸 Screenshots
 
-| Live TV (dark) | Home (light) |
+| Live TV — dark | Live TV — light |
 |---|---|
-| <img src="docs/assets/live-dark.png" alt="Live TV with channel list and player"> | <img src="docs/assets/home-light.png" alt="Home screen in light mode"> |
-
-<p align="center"><img src="docs/assets/settings-light.png" alt="Settings in light mode" width="640"></p>
+| <img src="docs/assets/live-dark.png" alt="Live TV with channel list and player, dark"> | <img src="docs/assets/live-light.png" alt="Live TV with channel list and player, light"> |
+| **Dashboard — light** | **Command palette — dark** |
+| <img src="docs/assets/home-light.png" alt="Dashboard in light mode"> | <img src="docs/assets/palette-dark.png" alt="Command palette in dark mode"> |
 
 ## 🚀 Getting started
 
@@ -86,7 +87,7 @@ IPTVX/
 │   │   └── util/    # StringTable (interning)
 │   ├── ui/          # QML module IPTVX.UI (static lib iptvx_ui)
 │   │   ├── models/  # QAbstractListModels exposed to QML
-│   │   └── qml/     # theme/, components/, pages/, player/, sheets/
+│   │   └── qml/     # theme/, shell/, components/, pages/, player/, sheets/
 │   └── app/         # Executable: main.cpp + developer tooling
 ├── tests/           # Qt Test suites + synthetic fixtures
 ├── i18n/            # Translations (.ts)
@@ -101,7 +102,7 @@ IPTVX/
 |---|---|
 | [Architecture](docs/ARCHITECTURE.md) | Layers, data flow, threading, persistence |
 | [Memory strategy](docs/MEMORY.md) | How IPTVX keeps its footprint low, rules for new code |
-| [Design system](docs/DESIGN.md) | Aurora tokens, components, motion, the three design concepts |
+| [Design system](docs/DESIGN.md) | Workspace tokens (dark & light), components, motion, explored concepts |
 | [Development](docs/DEVELOPMENT.md) | Building on each OS, presets, testing, dev mode, i18n |
 | [Roadmap](docs/ROADMAP.md) | Feature parity plan with established IPTV players |
 | [Contributing](CONTRIBUTING.md) | Workflow, commit style, code style |
