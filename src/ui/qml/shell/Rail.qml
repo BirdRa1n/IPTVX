@@ -60,9 +60,32 @@ Rectangle {
         Accessible.name: text
         onClicked: if (page.length > 0) Session.page = page
 
-        ToolTip.visible: hovered
-        ToolTip.delay: 500
-        ToolTip.text: text
+        // Themed tooltip, shown to the right of the rail.
+        ToolTip {
+            visible: button.hovered && button.text.length > 0
+            delay: 450
+            text: button.text
+            x: button.width + 10
+            y: Math.round((button.height - height) / 2)
+            padding: 0
+            enter: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1; duration: Theme.durationFast } }
+            exit: Transition { NumberAnimation { property: "opacity"; to: 0; duration: Theme.durationFast } }
+            contentItem: Label {
+                text: button.text
+                font: Theme.caption
+                color: Theme.textPrimary
+                leftPadding: 10
+                rightPadding: 10
+                topPadding: 6
+                bottomPadding: 6
+            }
+            background: Rectangle {
+                radius: Theme.radiusSmall
+                color: Theme.surface
+                border.width: 1
+                border.color: Theme.borderStrong
+            }
+        }
 
         background: Rectangle {
             radius: 12
