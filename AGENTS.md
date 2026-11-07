@@ -88,6 +88,16 @@ no per-item QObjects, add a footprint bound test for new scaling structures.
   or PR descriptions in this repository.
 - Commit/push only when the maintainer asks.
 
+## Releases and updates
+
+- Never edit the version by hand: `tools/release.sh X.Y.Z` bumps
+  `project(VERSION)`, tags and pushes; `.github/workflows/release.yml` builds
+  and publishes. See [docs/RELEASING.md](docs/RELEASING.md).
+- Release asset names are a contract with the updater
+  (`update::Platform::assetSuffix()`): change both together.
+- Automated runs must not hit the GitHub API — the sandbox sets
+  `IPTVX_NO_UPDATE_CHECK`; use `IPTVX_UPDATE_PREVIEW` to review the UI.
+
 ## Where to look
 
 | Task | Start here |
@@ -99,6 +109,9 @@ no per-item QObjects, add a footprint bound test for new scaling structures.
 | Screens & components | `src/ui/qml/pages/`, `src/ui/qml/components/` |
 | Player | `src/ui/qml/player/VideoPlayer.qml` |
 | Build system | `CMakeLists.txt`, `cmake/CompilerSettings.cmake`, `CMakePresets.json` |
+| Updater | `src/core/update/`, `src/ui/Updates.*`, `src/ui/qml/sheets/UpdateSheet.qml` |
+| Packaging / releases | `packaging/`, `.github/workflows/release.yml`, `tools/release.sh` |
+| App icon | `resources/icons/iptvx.svg` → `--target icons` (`tools/icon-render`) |
 | What to build next | [docs/ROADMAP.md](docs/ROADMAP.md) |
 
 Task-specific playbooks live in `.agents/skills/*/SKILL.md`.

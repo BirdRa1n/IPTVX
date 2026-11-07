@@ -20,3 +20,12 @@ Run from the repository root with `CMAKE_PREFIX_PATH` pointing at Qt.
 8. Commits: English Conventional Commits, small and focused.
 
 Report what ran, what passed, and anything skipped with the reason.
+
+## Cutting a release (maintainer asks for it)
+
+1. Run the gate above on `main`, push `main`.
+2. `tools/release.sh X.Y.Z` — bumps `project(VERSION)`, tags `vX.Y.Z`,
+   pushes; the Release workflow builds and publishes (`gh run watch`).
+3. Check the release lists the five platform assets plus `SHA256SUMS.txt`
+   (names in docs/RELEASING.md) and that the notes read well — the updater
+   shows them to users.

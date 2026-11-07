@@ -107,8 +107,15 @@ spring. Clicking the video returns to Live TV. Closing it stops playback.
 
 Master artwork: `resources/icons/iptvx.svg` — a graphite squircle on the
 macOS icon grid (824 px body on a 1024 px canvas) with a lime screen and
-play mark. Platform files (`iptvx.icns`, `iptvx.ico`, PNGs) are generated
-from it with `cmake -DIPTVX_BUILD_TOOLS=ON` and `--target icons`.
+play mark. Platform files are generated from it with
+`cmake -DIPTVX_BUILD_TOOLS=ON` and `--target icons`:
+
+* macOS — `iptvx.icns` (16–1024 px)
+* Windows — `iptvx.ico` with 16, 20, 24, 32, 40, 48 px (32-bit BMP) and
+  64, 96, 128, 256 px (PNG), embedded in `IPTVX.exe` with a VERSIONINFO
+  resource and used by the installer and its shortcuts
+* Linux — hicolor PNGs from 16 to 512 px plus the scalable SVG, a
+  `.desktop` entry and AppStream metainfo
 
 <img src="../resources/icons/hicolor/iptvx-256.png" alt="IPTVX app icon" width="128">
 

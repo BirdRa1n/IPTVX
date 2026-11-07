@@ -32,13 +32,9 @@ cmake --build --preset debug --target all_qmllint   # QML lint
 | `ci` | Release | Warnings are errors, LTO off |
 
 CMake options: `IPTVX_BUILD_TESTS` (ON), `IPTVX_WARNINGS_AS_ERRORS` (OFF),
-`IPTVX_ENABLE_LTO` (ON), `IPTVX_BUILD_TOOLS` (OFF — icon renderer).
-
-Regenerate the app icons after editing `resources/icons/iptvx.svg`:
-
-```bash
-cmake --preset debug -DIPTVX_BUILD_TOOLS=ON && cmake --build --preset debug --target icons
-```
+`IPTVX_ENABLE_LTO` (ON), `IPTVX_BUILD_TOOLS` (OFF — icon renderer),
+`IPTVX_UPDATE_REPO` (`BirdRa1n/IPTVX` — repository the updater queries),
+`CMAKE_OSX_DEPLOYMENT_TARGET` (14.4 — Qt 6.12's minimum macOS).
 
 ## Developer mode (sandbox, seeding, screenshots)
 
@@ -57,6 +53,8 @@ Environment variables read by `src/app/DevTools.cpp`:
 | `IPTVX_SCREENSHOT_NATIVE=1` | macOS: capture with the native frame (`screencapture -l`, needs Screen Recording; otherwise a composited frame) |
 | `IPTVX_SHEET=add` | Open the add-source sheet |
 | `IPTVX_WINDOW_SIZE=<W>x<H>` | Resize the window before capturing |
+| `IPTVX_UPDATE_PREVIEW=<version>` | Show a synthetic release in the update UI |
+| `IPTVX_NO_UPDATE_CHECK=1` | Skip the startup update check (implied by the sandbox) |
 
 Example — capture the Live TV page in light mode:
 
@@ -93,10 +91,24 @@ Every user-visible string goes through `qsTr()` (QML) or `tr()` (C++).
 > file can make moc skip the file. Put JSON/M3U payloads in
 > `tests/data/` instead.
 
-## Packaging (planned)
+## App icon
 
-* macOS: `macdeployqt IPTVX.app -qmldir=src/ui/qml -dmg`
-* Windows: `windeployqt --qmldir src\ui\qml IPTVX.exe`
-* Linux: AppImage via `linuxdeploy` + `linuxdeploy-plugin-qt`
+The master artwork is `resources/icons/iptvx.svg`. Every platform file is
+generated from it:
 
-See [ROADMAP.md](ROADMAP.md).
+| File | Used by |
+|---|---|
+| `resources/icons/iptvx.icns` | macOS bundle (`CFBundleIconFile`) |
+| `resources/icons/iptvx.ico` | Windows executable and installer — 16, 20, 24, 32, 40, 48 px as 32-bit BMP, 64, 96, 128, 256 px as PNG |
+| `resources/icons/hicolor/iptvx-<n>.png` | Linux hicolor theme (16–512 px), installed as `io.github.birdra1n.iptvx.png`, and the in-app window icon |
+| `resources/linux/*.desktop`, `*.metainfo.xml` | Linux launcher entry and AppStream metadata |
+
+```bash
+cmake --preset debug -DIPTVX_BUILD_TOOLS=ON && cmake --build --preset debug --target icons
+```
+
+## Packaging and releases
+
+See [RELEASING.md](RELEASING.md): `tools/release.sh X.Y.Z` tags a version and
+GitHub Actions builds macOS (arm64, x86_64), Linux (x86_64, aarch64) and
+Windows (x64) packages into a GitHub release that the in-app updater uses.

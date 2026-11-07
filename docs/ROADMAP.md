@@ -79,5 +79,8 @@ IPTVnator). ✅ done · 🚧 in progress · ⏳ planned.
 | Item | Status |
 |---|---|
 | CI build + tests on macOS, Windows, Linux | ✅ |
+| Tag-driven release builds (macOS arm64/x86_64, Linux x86_64/aarch64, Windows x64) | ✅ |
+| In-app updates from GitHub Releases (checksum-verified) | ✅ |
 | App icon (icns / ico / hicolor + .desktop) | ✅ |
-| Signed macOS DMG, Windows installer, Linux AppImage | ⏳ |
+| Developer ID signing + notarization (macOS), Authenticode (Windows) | ⏳ |
+| Flatpak / Homebrew cask / winget manifests | ⏳ |

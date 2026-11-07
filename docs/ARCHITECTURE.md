@@ -32,6 +32,9 @@ tested without a display, and could be reused by a CLI or another front end.
 | `service/PlaylistLoader` | Turns a `Source` into a `ChannelStore`: parse file, stream URL to a disk cache then parse, or query Xtream. Supersedes stale loads via a generation counter. |
 | `storage/Database` | SQLite connection (WAL, small page cache) + ordered migrations in `PRAGMA user_version`. |
 | `storage/SourceRepository` | CRUD for sources. |
+| `update/Release` | Version comparison, GitHub release parsing, platform/CPU detection and asset selection. |
+| `update/UpdateService` | Queries `/releases/latest`, streams the asset to disk and verifies size + SHA-256. |
+| `update/UpdateInstaller` | Swaps the .app (macOS), replaces the AppImage (Linux) or runs the silent installer (Windows), then relaunches. |
 | `util/StringTable` | Deduplicating string table addressed by `quint16`. |
 
 ### Loading a source
@@ -56,7 +59,7 @@ sequenceDiagram
 
 ## UI (`src/ui`)
 
-* **C++ ↔ QML boundary** — `Library` is a `QML_SINGLETON` facade; models are
+* **C++ ↔ QML boundary** — `Library` and `Updates` are `QML_SINGLETON` facades; models are
   `QAbstractListModel`s registered with `QML_ELEMENT`. QML never sees core
   types directly.
 * **`Library.search`** is a second `ChannelListModel` over the same store
@@ -102,7 +105,8 @@ Results cross threads only as immutable `shared_ptr<const ChannelStore>`.
 | Sources, favorites, history | SQLite `AppDataLocation/iptvx.db` |
 | Cached remote playlists | `CacheLocation/playlists/<sourceId>.m3u` |
 | Artwork HTTP cache (128 MiB cap) | `CacheLocation/artwork` |
-| UI preferences | `QSettings` (`ui/*`) |
+| UI preferences | `QSettings` (`ui/*`, `updates/autoCheck`) |
+| Downloaded updates | `CacheLocation/updates` |
 
 Migrations are append-only: never edit a released migration in
 `Database.cpp`; add a new entry to `kMigrations`.
