@@ -50,6 +50,7 @@ jobs:
         with:
           version: ${{ env.QT_VERSION }}
           modules: qtmultimedia
+          aqtversion: ">=3.3.0"
           cache: true
 
       - name: Install CMake and Ninja

@@ -75,7 +75,8 @@ jobs:
             platform: linux
             arch: x86_64
           - name: Linux aarch64
-            os: ubuntu-22.04-arm
+            # Qt's ARM64 Linux binaries need glibc 2.38+.
+            os: ubuntu-24.04-arm
             platform: linux
             arch: aarch64
             qt_host: linux_arm64
@@ -98,7 +99,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgl1-mesa-dev libegl1 libxkbcommon-dev libxkbcommon-x11-0 \
             libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libfontconfig1-dev \
-            libpulse-dev libva-dev file
+            libpulse-dev libva-dev libwayland-client0 libwayland-cursor0 libwayland-egl1 file
 
       - name: Set up MSVC
         if: matrix.platform == 'windows'
@@ -111,6 +112,8 @@ jobs:
           host: ${{ matrix.qt_host || '' }}
           arch: ${{ matrix.qt_arch || '' }}
           modules: qtmultimedia
+          # Recent aqtinstall understands the Qt 6.10+ repository layout.
+          aqtversion: ">=3.3.0"
           cache: true
 
       - name: Install CMake and Ninja

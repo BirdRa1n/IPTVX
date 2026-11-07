@@ -35,7 +35,7 @@ To rebuild an existing tag (e.g. after fixing the workflow), run the
 | Step | Details |
 |---|---|
 | Prepare | Fails if the tag does not match `project(VERSION)`; creates a **draft** release with generated notes |
-| Build (in parallel) | macOS arm64 and macOS x86_64 (cross-compiled on Apple silicon), Linux x86_64 (`ubuntu-22.04`) and aarch64 (`ubuntu-22.04-arm`), Windows x64 (`windows-2022`, MSVC) — Qt 6.12.0 |
+| Build (in parallel) | macOS arm64 and macOS x86_64 (cross-compiled on Apple silicon), Linux x86_64 (`ubuntu-22.04`, glibc 2.35) and aarch64 (`ubuntu-24.04-arm`, glibc 2.39 — Qt's ARM64 binaries need 2.38+), Windows x64 (`windows-2022`, MSVC) — Qt 6.12.0 |
 | Package | `packaging/macos/package.sh`, `packaging/linux/package.sh`, `packaging/windows/package.ps1` |
 | Upload | Each job uploads its package to the draft |
 | Publish | Adds `SHA256SUMS.txt`, then publishes the release and marks it *latest* |

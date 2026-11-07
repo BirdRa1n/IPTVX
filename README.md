@@ -56,7 +56,7 @@ Get the latest build from **[GitHub Releases](https://github.com/BirdRa1n/IPTVX/
 | macOS — Apple silicon (M1 and later) | `IPTVX-<version>-macos-arm64.zip` | macOS 14.4+ |
 | macOS — Intel | `IPTVX-<version>-macos-x86_64.zip` | macOS 14.4+ |
 | Linux — x86-64 | `IPTVX-<version>-linux-x86_64.AppImage` | glibc 2.35+ (Ubuntu 22.04, Debian 12, Fedora 36…) |
-| Linux — ARM64 | `IPTVX-<version>-linux-aarch64.AppImage` | glibc 2.35+ |
+| Linux — ARM64 | `IPTVX-<version>-linux-aarch64.AppImage` | glibc 2.39+ (Ubuntu 24.04, Debian 13, Fedora 40…) |
 | Windows — x64 | `IPTVX-<version>-windows-x64-setup.exe` | Windows 10 1809+ / 11 |
 
 **First launch**
