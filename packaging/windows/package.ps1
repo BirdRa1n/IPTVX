@@ -13,7 +13,11 @@ $Repo = (Resolve-Path "$PSScriptRoot/../..").Path
 $Stage = Join-Path $BuildDir "deploy"
 New-Item -ItemType Directory -Force -Path $Stage, $OutDir | Out-Null
 
-Copy-Item (Join-Path $BuildDir "src/app/IPTVX.exe") $Stage -Force
+# qt_standard_project_setup() puts executables at the build root on Windows.
+$exe = @("IPTVX.exe", "src/app/IPTVX.exe") | ForEach-Object { Join-Path $BuildDir $_ } |
+    Where-Object { Test-Path $_ } | Select-Object -First 1
+if (-not $exe) { throw "IPTVX.exe not found in $BuildDir" }
+Copy-Item $exe $Stage -Force
 windeployqt --release --qmldir (Join-Path $Repo "src/ui/qml") `
     --no-translations --no-system-d3d-compiler --no-compiler-runtime `
     (Join-Path $Stage "IPTVX.exe")
