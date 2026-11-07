@@ -43,6 +43,10 @@ public:
     explicit ChannelListModel(QObject *parent = nullptr);
 
     void setStore(ChannelStorePtr store);
+
+    /// When false an empty search yields no rows instead of the whole
+    /// catalog (used by global search so idle state costs nothing).
+    void setMatchAllWhenIdle(bool matchAll) { m_matchAllWhenIdle = matchAll; applyFilter(); }
     const ChannelStorePtr &store() const { return m_store; }
 
     int rowCount(const QModelIndex &parent = {}) const override;
@@ -74,6 +78,7 @@ private:
     std::vector<ChannelStore::Index> m_rows;
     QString m_searchText;
     QString m_group;
+    bool m_matchAllWhenIdle = true;
 };
 
 } // namespace iptvx::ui

@@ -25,7 +25,9 @@ Library::Library(QObject *parent)
     , m_network(new QNetworkAccessManager(this))
     , m_sources(new SourceListModel(this))
     , m_channels(new ChannelListModel(this))
+    , m_search(new ChannelListModel(this))
 {
+    m_search->setMatchAllWhenIdle(false);
     if (!m_db->open(Database::defaultPath()))
         setError(tr("Could not open the library database: %1").arg(m_db->lastError()));
     m_repo = std::make_unique<SourceRepository>(m_db->connection());
@@ -40,7 +42,7 @@ Library::Library(QObject *parent)
                 if (id != m_activeId)
                     return;
                 m_epgUrls = epgUrls;
-                m_channels->setStore(std::move(store));
+                setStore(std::move(store));
                 setProgress(-1);
                 setBusy(false);
                 emit activeSourceChanged();
@@ -138,7 +140,7 @@ bool Library::removeSource(const QString &id)
         m_loader->cancel();
         m_activeId.clear();
         m_epgUrls.clear();
-        m_channels->setStore(nullptr); // frees the catalog
+        setStore(nullptr); // frees the catalog
         setBusy(false);
         emit activeSourceChanged();
         if (m_sources->count() > 0)
@@ -157,7 +159,7 @@ void Library::selectSource(const QString &id)
     QSettings().setValue(kLastSourceKey, id);
     // Release the previous catalog before loading the next one so two
     // catalogs never coexist in memory.
-    m_channels->setStore(nullptr);
+    setStore(nullptr);
     m_epgUrls.clear();
     emit activeSourceChanged();
     setBusy(true);
@@ -182,6 +184,12 @@ void Library::clearError()
 qint64 Library::catalogMemory() const
 {
     return m_channels->store() ? m_channels->store()->memoryFootprint() : 0;
+}
+
+void Library::setStore(ChannelStorePtr store)
+{
+    m_search->setStore(store);
+    m_channels->setStore(std::move(store));
 }
 
 void Library::setBusy(bool busy)

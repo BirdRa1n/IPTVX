@@ -32,6 +32,9 @@ class Library : public QObject
 
     Q_PROPERTY(iptvx::ui::SourceListModel *sources READ sources CONSTANT)
     Q_PROPERTY(iptvx::ui::ChannelListModel *channels READ channels CONSTANT)
+    /// Second view over the same catalog for global search (command
+    /// palette). Shares the ChannelStore: costs only its row indices.
+    Q_PROPERTY(iptvx::ui::ChannelListModel *search READ search CONSTANT)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(qreal progress READ progress NOTIFY progressChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
@@ -45,6 +48,7 @@ public:
 
     SourceListModel *sources() const { return m_sources; }
     ChannelListModel *channels() const { return m_channels; }
+    ChannelListModel *search() const { return m_search; }
     bool busy() const { return m_busy; }
     qreal progress() const { return m_progress; }
     QString errorString() const { return m_error; }
@@ -77,6 +81,7 @@ private:
     void setBusy(bool busy);
     void setError(const QString &error);
     void setProgress(qreal progress);
+    void setStore(ChannelStorePtr store);
 
     std::unique_ptr<Database> m_db;
     std::unique_ptr<SourceRepository> m_repo;
@@ -84,6 +89,7 @@ private:
     PlaylistLoader *m_loader = nullptr;
     SourceListModel *m_sources = nullptr;
     ChannelListModel *m_channels = nullptr;
+    ChannelListModel *m_search = nullptr;
 
     QString m_activeId;
     QStringList m_epgUrls;

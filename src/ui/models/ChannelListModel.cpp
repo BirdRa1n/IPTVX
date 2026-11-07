@@ -132,7 +132,9 @@ void ChannelListModel::applyFilter()
                 groupId = 0x10000; // unknown group: matches nothing
         }
 
-        if (needle.isEmpty() && groupId < 0) {
+        if (needle.isEmpty() && groupId < 0 && !m_matchAllWhenIdle) {
+            // idle global search: no rows
+        } else if (needle.isEmpty() && groupId < 0) {
             m_rows.resize(size_t(n));
             for (qsizetype i = 0; i < n; ++i)
                 m_rows[size_t(i)] = ChannelStore::Index(i);
