@@ -40,10 +40,11 @@ Environment variables read by `src/app/DevTools.cpp`:
 
 | Variable | Effect |
 |---|---|
-| `IPTVX_SANDBOX=1` | Isolated profile (`QStandardPaths` test mode, wiped on start) |
+| `IPTVX_SANDBOX=1` | Isolated profile (`QStandardPaths` test mode + INI `QSettings`, wiped on start) |
 | `IPTVX_SEED_PLAYLIST=<file>` | Add the file as a source if the library is empty (implies sandbox) |
 | `IPTVX_PAGE=home\|live\|settings` | Initial page |
 | `IPTVX_APPEARANCE=light\|dark\|system` | Initial appearance |
+| `IPTVX_PALETTE=<query>` | Open the command palette with the query typed |
 | `IPTVX_SCREENSHOT=<out.png>` | Save a window capture and quit (implies sandbox) |
 | `IPTVX_SCREENSHOT_DELAY=<ms>` | Delay before the capture (default 2500) |
 

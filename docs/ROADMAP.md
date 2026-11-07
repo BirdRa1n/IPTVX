@@ -56,11 +56,11 @@ IPTVnator). ✅ done · 🚧 in progress · ⏳ planned.
 
 | Feature | Status |
 |---|---|
-| Aurora design system, light/dark/system, accent colors | ✅ |
+| Workspace design system, light/dark/system, accent presets | ✅ |
 | Reduce motion | ✅ |
 | English, Brazilian Portuguese | ✅ |
-| Command palette (⌘/Ctrl+K) | ⏳ |
-| Cinema & Nebula alternative themes | ⏳ |
+| Command palette (⌘/Ctrl+K) | ✅ (channels + commands) |
+| Alternative themes from the concept canvas | ⏳ |
 | More languages | ⏳ |
 
 ## Performance & memory

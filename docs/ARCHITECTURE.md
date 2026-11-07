@@ -59,6 +59,8 @@ sequenceDiagram
 * **C++ ↔ QML boundary** — `Library` is a `QML_SINGLETON` facade; models are
   `QAbstractListModel`s registered with `QML_ELEMENT`. QML never sees core
   types directly.
+* **`Library.search`** is a second `ChannelListModel` over the same store
+  for the command palette; it matches nothing while the query is empty.
 * **`ChannelListModel`** holds the shared store plus a `std::vector<quint32>`
   of filtered row indices. Group filtering compares interned ids; text search
   first tries a byte match before allocating a temporary `QString`.
@@ -67,8 +69,9 @@ sequenceDiagram
   | Folder | Contents |
   |---|---|
   | `qml/theme` | `Theme` singleton — every color, radius, spacing, font, duration |
-  | `qml/components` | Reusable controls (`PillButton`, `SegmentedControl`, `SearchField`, `ToggleSwitch`, `ChannelLogo`, `Icon`, …) |
-  | `qml/pages` | `HomePage`, `LiveTvPage`, `SettingsPage` |
+  | `qml/shell` | `Rail`, `TopBar` (source switcher), `CommandPalette` |
+  | `qml/components` | Reusable controls (`PillButton`, `Chip`, `SegmentedControl`, `SearchField`, `ToggleSwitch`, `ChannelLogo`, `Icon`, …) |
+  | `qml/pages` | `DashboardPage`, `LiveTvPage`, `SettingsPage` |
   | `qml/player` | `VideoPlayer` (Qt Multimedia) |
   | `qml/sheets` | Modal flows (`AddSourceSheet`) |
   | `qml/Session.qml` | UI session state + persisted preferences |

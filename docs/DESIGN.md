@@ -1,101 +1,107 @@
 # Design system
 
-IPTVX ships the **Aurora** design system — calm, translucent and
-SwiftUI-inspired. Two further concepts (**Cinema** and **Nebula**) were
-explored and remain candidates for alternative themes.
+IPTVX ships the **Workspace** design system — graphite surfaces, one vivid
+accent, a compact icon rail and a keyboard-first command palette — in
+**dark and light** appearances. It was chosen from eight explored concepts.
 
-## Concepts
+| Dark | Light |
+|---|---|
+| <img src="assets/live-dark.png" alt="Live TV, dark"> | <img src="assets/live-light.png" alt="Live TV, light"> |
 
-| Concept | Personality | Signature elements | Status |
-|---|---|---|---|
-| **A · Aurora** | SwiftUI / macOS — calm, airy, native | Source-list sidebar with accent selection pill, large titles, segmented pickers, inset grouped forms, glass player capsule | ✅ Implemented |
-| **B · Cinema** | Immersive, poster-first, dark | Full-bleed backdrop with gradient scrims, display type (Space Grotesk), gold accent, cinematic player overlay with audio/subtitle panel | 💡 Concept |
-| **C · Nebula** | Dense, productive, keyboard-first | Icon rail, EPG timeline grid, command palette (⌘K), teal accent on deep navy | 💡 Concept |
+## Concepts explored
 
-The concept boards (Aurora Home & Live TV, Cinema Detail & Player, Nebula
-Guide & Add Source) live in the project's design canvas.
+| Concept | Personality | Status |
+|---|---|---|
+| A · Aurora | SwiftUI / macOS — calm, translucent sidebar, large titles | Shipped first, replaced by Workspace |
+| B · Cinema | Immersive, poster-first, gold accent | Concept |
+| C · Nebula | Dense navy, EPG timeline grid | Concept |
+| D · Broadcast | Swiss grid, giant channel numbers, number-dial zapping | Concept |
+| E · Spatial | visionOS-style floating glass and ornaments | Concept |
+| F · Tonal | Material Expressive, couch/D-pad focus | Concept |
+| G · Index | Typography-only minimalism | Concept |
+| **H · Workspace** | Inspired by IPTVnator's workspace, reimagined: icon rail, source switcher, ⌘K palette, up-next/EPG ribbon, source health | ✅ **Implemented** |
 
 ## Tokens (`src/ui/qml/theme/Theme.qml`)
 
 All visual values come from the `Theme` singleton. **Never hard-code a color,
-radius, spacing, font or duration in a component.**
+radius, spacing, font or duration in a component.** The video surface is the
+only exception: it is always dark, so overlays on it use `videoText` /
+`videoTextSecondary` / `overlay` in both appearances.
 
 ### Color
 
-| Token | Light | Dark | Use |
+| Token | Dark | Light | Use |
 |---|---|---|---|
-| `accent` | `#0A64D6` (user selectable) | same | Selection, primary actions, progress |
-| `window` | `#FFFFFF` | `#1C1C1E` | Content background |
-| `sidebar` | `#F2F2F5` | `#232326` | Sidebar / secondary panes |
-| `card` / `cardHover` | `#F5F5F8` / `#EDEDF2` | `#2A2A2E` / `#323237` | Cards, form groups |
-| `field` | `#E4E4EA` | `#2F2F34` | Inputs, segmented track, chips |
-| `textPrimary` / `textSecondary` / `textTertiary` | `#1C1C1E` / `#5E5E66` / `#6C6C74` | `#F5F5F7` / `#A1A1A8` / `#7C7C84` | Text hierarchy (all ≥ 4.5:1 on their surfaces) |
-| `material` | 80 % white | 82 % graphite | Floating "glass" bars |
-| `live`, `success`, `danger` | system red / green / red | | Status |
+| `bg` | `#141414` | `#F7F7F5` | Window, rail, panes |
+| `surface` | `#1C1C1C` | `#FFFFFF` | Cards, inputs, popovers |
+| `raised` | `#242424` | `#FFFFFF` | Selected row / rail plate |
+| `hover` | `#202020` | `#EFEFEC` | Hover state |
+| `chip` / `cell` | `#242424` / `#1E1E1E` | `#EBEBE7` / `#EFEFEC` | Chips, segmented track / ribbon & grid cells |
+| `divider` / `border` / `borderStrong` | `#262626` / `#2E2E2E` / `#3A3A3A` | `#E4E4E0` / `#E1E1DC` / `#CFCFC9` | Hairlines |
+| `textPrimary` / `textSecondary` / `textTertiary` | `#ECECEA` / `#A8A8A4` / `#9A9A96` | `#141414` / `#55554F` / `#66665F` | Text hierarchy (≥ 4.5:1) |
+| `accent` | preset fill | preset fill | Filled buttons, active chips, progress |
+| `accentForeground` | `#141414` | `#141414` | Text/icons **on** the accent fill |
+| `accentText` | = accent | darker preset variant | Accent used as text, icons, thin indicators |
+| `accentSoft` | accent 12 % | accentText 12 % | Tinted backgrounds |
+| `live`, `success`, `warning`, `danger` | | | Status |
 
-Accent presets: blue `#0A64D6`, indigo `#5E3FD1`, orange `#C2410C`, green
-`#0F7B5F`, raspberry `#B4235A`.
+Accent presets (`Theme.accentPresets`): **lime** `#C6F432` (default,
+light text `#3F6212`), sky `#7DD3FC` (`#075985`), rose `#FDA4AF`
+(`#9F1239`), amber `#FCD34D` (`#92400E`). Accents are bright *fills*: never
+put white text on them, and never use the raw fill as text on a light
+background — use `accentText`.
 
-### Shape & spacing
+### Shape, spacing, sizes
 
-* Radii: `radiusSmall 8`, `radiusMedium 12`, `radiusLarge 18`, `radiusXL 22`;
-  capsules use `height / 2`.
-* Spacing scale: `4 · 8 · 12 · 16 · 20 · 28 · 36` (`space1` … `space7`).
-* Control height 34, sidebar width 248, touch/click targets ≥ 28 px.
+* Radii: `radiusSmall 8`, `radiusMedium 10`, `radiusLarge 14`, `radiusXL 16`.
+* Spacing: `4 · 8 · 12 · 16 · 20 · 26 · 32` (`space1` … `space7`).
+* Rail 64 px, channel pane 330 px, control height 38 px.
 
 ### Typography
 
-The platform font (SF Pro on macOS, Segoe UI on Windows, the desktop font on
-Linux) — no font files are shipped.
+Platform font (SF Pro / Segoe UI / desktop font) — no font files shipped.
 
 | Style | Size / weight |
 |---|---|
-| `largeTitle` | 34 / ExtraBold |
-| `title` | 28 / ExtraBold |
-| `title2` | 20 / Bold |
-| `headline` | 15 / DemiBold |
+| `largeTitle` | 28 / ExtraBold |
+| `title` | 22 / ExtraBold |
+| `title2` | 17 / ExtraBold |
+| `headline` | 14 / Bold |
 | `body` | 14 |
 | `callout` | 13 |
 | `caption` | 12 |
-| `sectionLabel` | 11 / DemiBold, uppercase |
+| `sectionLabel` | 11 / Bold, uppercase |
 
 ### Motion
 
-| Token | Value | Typical use |
+| Token | Value | Use |
 |---|---|---|
-| `durationFast` | 140 ms | Hover, press, color |
-| `durationMedium` | 260 ms | Panels, overlay fades, page enter |
-| `durationSlow` | 420 ms | Sheets, empty-state entrance |
-| Springs | `SpringAnimation { spring: 4–5; damping: 0.35–0.4 }` | Selection pill, segmented thumb, switch knob |
-| `Easing.OutBack` (`springOvershoot` 1.15) | | Sheet scale-in, toast |
+| `durationFast` | 120 ms | Hover, press, color |
+| `durationMedium` | 220 ms | Panels, overlay, page enter |
+| `durationSlow` | 360 ms | Sheets, palette, empty states |
+| Springs | `SpringAnimation { spring: 4.5–5; damping: 0.38–0.4 }` | Rail plate, segmented thumb, switch knob |
+| `Easing.OutBack` (`springOvershoot` 1.2) | | Sheet and palette scale-in |
 
-`Theme.reduceMotion` (Settings › Reduce motion) collapses every duration to
-0 and stops decorative loops.
+`Theme.reduceMotion` (Settings › Reduce motion) collapses durations to 0.
 
-## Components
+## Structure
 
-| Component | Notes |
+| Area | Files |
 |---|---|
-| `SidebarItem` | Icon + label + trailing text/dot; `drawsSelection: false` when a shared pill is drawn behind |
-| `PillButton` | Capsule; `prominent` (filled) or tinted; press scale 0.96 |
-| `SegmentedControl` | Spring-animated thumb |
-| `SearchField` | Magnifier, clear button, 180 ms `debounced` signal |
-| `ToggleSwitch` | iOS-style switch |
-| `ChannelLogo` | Artwork at display size with monogram fallback tinted from the name |
-| `ChannelRow` | Number · logo · name · group, current-row indicator |
-| `EmptyState` | Icon badge, title, message, action; fade + rise entrance |
-| `Icon` | Vector stroke icons (Qt Quick Shapes); add new paths to `paths` |
+| Shell | `qml/shell/Rail.qml`, `TopBar.qml` (source switcher), `CommandPalette.qml` |
+| Pages | `qml/pages/DashboardPage.qml`, `LiveTvPage.qml`, `SettingsPage.qml` |
+| Components | `PillButton`, `Chip`, `SearchField`, `SegmentedControl`, `ToggleSwitch`, `ChannelRow`, `ChannelLogo`, `EmptyState`, `Icon` |
 
 ## Accessibility
 
-* Every icon-only button sets `Accessible.name`.
-* Focus rings (`visualFocus`) use the accent color.
-* Text contrast ≥ 4.5:1 in both appearances.
-* Keyboard: see README › Highlights.
+* Icon-only buttons set `Accessible.name` (rail buttons also show tooltips).
+* Focus rings use `accentText`.
+* Contrast ≥ 4.5:1 for text in both appearances.
+* Keyboard: ⌘/Ctrl+K palette, ⌘/Ctrl+1/2 pages, ⌘/Ctrl+N add source,
+  Space/M/F/↑/↓ in the player.
 
-## Adding a theme
+## QML pitfall
 
-1. Copy the token block in `Theme.qml` into a new palette and switch on a
-   `Theme.style` property.
-2. Do not fork components; if a concept needs a different structure (e.g.
-   Nebula's icon rail), add a new component and choose it in `Main.qml`.
+Never name a property `on<Something>` (e.g. `onAccent`, `onVideo`): QML
+parses it as a signal handler and the whole singleton fails to load at run
+time — qmllint does **not** catch it.

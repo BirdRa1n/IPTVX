@@ -1,6 +1,6 @@
 ---
 name: iptvx-qml-ui
-description: Use when creating or changing IPTVX screens, QML components, animations or theme tokens (Aurora design system).
+description: Use when creating or changing IPTVX screens, QML components, animations or theme tokens (Workspace design system, dark and light).
 ---
 
 # IPTVX QML UI work
@@ -15,7 +15,11 @@ description: Use when creating or changing IPTVX screens, QML components, animat
 - Style only with `Theme.*` tokens. Durations: `Theme.durationFast/Medium/Slow`
   (they become 0 with reduce motion). Springs for selection indicators.
 - Never declare a property named `on<Something>` (it becomes a signal
-  handler and breaks the type).
+  handler and breaks the type at run time; qmllint misses it).
+- Accent: `Theme.accent` is a fill (text on it = `Theme.accentForeground`);
+  accent-colored text/icons use `Theme.accentText`.
+- The video area is dark in both appearances: overlays use `Theme.overlay`,
+  `Theme.videoText`, `Theme.videoTextSecondary`.
 - Delegates: `pragma ComponentBehavior: Bound`, `required property` per role,
   give the delegate an `id` and reference roles through it.
 - Lists: `ListView` with `reuseItems: true`; images with `asynchronous: true`
@@ -36,5 +40,6 @@ for page in home live settings; do
 done
 ```
 
-Open the PNGs and check both appearances (`IPTVX_APPEARANCE=light|dark`).
+Open the PNGs and check **both** appearances (`IPTVX_APPEARANCE=light|dark`)
+— shipping a screen that only works in one is a bug.
 Watch stderr for `qrc:/…qml` warnings — they must be empty.

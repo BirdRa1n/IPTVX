@@ -46,7 +46,11 @@ no per-item QObjects, add a footprint bound test for new scaling structures.
   [docs/DESIGN.md](docs/DESIGN.md). No hard-coded colors/durations in
   components (decorative illustration colors in a single place are the
   exception).
-- Never name a QML property `on<Something>` — it is parsed as a signal handler.
+- Never name a QML property `on<Something>` — it is parsed as a signal handler
+  and the type fails at run time (qmllint does not catch it).
+- Both appearances are required: check every UI change in `IPTVX_APPEARANCE=dark`
+  **and** `light`. Use `Theme.accentText` (not `accent`) for accent-colored
+  text/icons; `accent` is a fill paired with `accentForeground`.
 - Files with delegates use `pragma ComponentBehavior: Bound` and
   `required property` roles.
 - Every user-visible string uses `qsTr()` / `tr()`; update `i18n/iptvx_pt_BR.ts`
@@ -59,7 +63,8 @@ no per-item QObjects, add a footprint bound test for new scaling structures.
   IPTVX_SCREENSHOT=/tmp/shot.png ./build/debug/src/app/IPTVX.app/Contents/MacOS/IPTVX
   ```
 
-  Seeding/screenshots always run in a sandboxed profile.
+  Seeding/screenshots always run in a sandboxed profile. `IPTVX_PALETTE=<query>`
+  opens the command palette for a capture.
 
 ## Code conventions
 
