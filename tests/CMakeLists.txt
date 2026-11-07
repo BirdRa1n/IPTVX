@@ -15,3 +15,4 @@ endfunction()
 
 iptvx_add_test(tst_channelstore SOURCES core/tst_channelstore.cpp)
 iptvx_add_test(tst_m3uparser SOURCES core/tst_m3uparser.cpp)
+iptvx_add_test(tst_sourcerepository SOURCES core/tst_sourcerepository.cpp)
