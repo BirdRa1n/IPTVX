@@ -1,3 +1,5 @@
+set_source_files_properties(qml/theme/Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 # The UI layer is a static QML module ("IPTVX.UI").
 # QML files are compiled ahead of time to C++ by qmlcachegen / qmlsc, which
 # removes run-time parsing and lowers the memory spent on QML bytecode.
@@ -20,6 +22,13 @@ qt_add_qml_module(iptvx_ui
         models/SourceListModel.h
     QML_FILES
         qml/Main.qml
+        qml/theme/Theme.qml
+        qml/components/ChannelLogo.qml
+        qml/components/Icon.qml
+        qml/components/PillButton.qml
+        qml/components/SearchField.qml
+        qml/components/SegmentedControl.qml
+        qml/components/SidebarItem.qml
 )
 
 target_include_directories(iptvx_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

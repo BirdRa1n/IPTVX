@@ -1,0 +1,59 @@
+import QtQuick
+import QtQuick.Controls.Basic
+import IPTVX.UI
+
+// Rounded search field with a leading magnifier and a clear button.
+// `debounced` fires 180 ms after typing stops so large lists are not
+// re-filtered on every keystroke.
+TextField {
+    id: control
+
+    signal debounced(string text)
+
+    implicitHeight: Theme.controlHeight
+    leftPadding: 32
+    rightPadding: clearButton.visible ? 30 : 10
+    font: Theme.callout
+    color: Theme.textPrimary
+    placeholderTextColor: Theme.textSecondary
+    selectionColor: Theme.accentSoft
+    selectedTextColor: Theme.textPrimary
+    placeholderText: qsTr("Search")
+    Accessible.name: placeholderText
+
+    background: Rectangle {
+        radius: Theme.radiusSmall + 2
+        color: Theme.field
+        border.width: control.activeFocus ? 2 : 0
+        border.color: Theme.accent
+        Behavior on border.width { NumberAnimation { duration: Theme.durationFast } }
+    }
+
+    Icon {
+        name: "search"
+        width: 15; height: 15
+        color: Theme.textSecondary
+        anchors.left: parent.left
+        anchors.leftMargin: 11
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
+    AbstractButton {
+        id: clearButton
+        visible: control.text.length > 0
+        width: 22; height: 22
+        anchors.right: parent.right
+        anchors.rightMargin: 6
+        anchors.verticalCenter: parent.verticalCenter
+        Accessible.name: qsTr("Clear search")
+        onClicked: control.clear()
+        contentItem: Icon { name: "close"; color: Theme.textSecondary; strokeWidth: 2.4 }
+    }
+
+    Timer {
+        id: debounce
+        interval: 180
+        onTriggered: control.debounced(control.text)
+    }
+    onTextChanged: debounce.restart()
+}
