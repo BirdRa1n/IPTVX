@@ -351,22 +351,22 @@
 <context>
     <name>MiniPlayer</name>
     <message>
-        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="189" />
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="192" />
         <source>Back to Live TV</source>
         <translation>Voltar para TV ao vivo</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="194" />
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="197" />
         <source>Close mini player</source>
         <translation>Fechar mini player</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="205" />
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="208" />
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="205" />
+        <location filename="../src/ui/qml/player/MiniPlayer.qml" line="208" />
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
@@ -430,77 +430,127 @@
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="85" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="87" />
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="91" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="93" />
         <source>Appearance</source>
         <translation>Aparência</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="93" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
         <source>Theme</source>
         <translation>Tema</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="97" />
         <source>System</source>
         <translation>Sistema</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="97" />
         <source>Light</source>
         <translation>Claro</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="95" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="97" />
         <source>Dark</source>
         <translation>Escuro</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="102" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="104" />
         <source>Accent color</source>
         <translation>Cor de destaque</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="131" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="133" />
         <source>Reduce motion</source>
         <translation>Reduzir movimento</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="140" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="142" />
         <source>Sources</source>
         <translation>Fontes</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="151" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="153" />
         <source>Refresh</source>
         <translation>Atualizar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="159" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="161" />
         <source>Remove</source>
         <translation>Remover</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="171" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="173" />
         <source>No sources configured.</source>
         <translation>Nenhuma fonte configurada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="178" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="180" />
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="180" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="182" />
         <source>Version</source>
         <translation>Versão</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="185" />
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="189" />
+        <source>Checking for updates…</source>
+        <translation>Procurando atualizações…</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="190" />
+        <source>IPTVX is up to date</source>
+        <translation>O IPTVX está atualizado</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="191" />
+        <source>Version %1 is available</source>
+        <translation>A versão %1 está disponível</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="192" />
+        <source>Downloading update… %1%</source>
+        <translation>Baixando atualização… %1%</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="193" />
+        <source>Update ready to install</source>
+        <translation>Atualização pronta para instalar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="194" />
+        <source>Update check failed</source>
+        <translation>Falha ao procurar atualizações</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="196" />
+        <source>Updates</source>
+        <translation>Atualizações</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="200" />
+        <source>View update</source>
+        <translation>Ver atualização</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="200" />
+        <source>Check now</source>
+        <translation>Verificar agora</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="216" />
+        <source>Check for updates on launch</source>
+        <translation>Procurar atualizações ao abrir</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/pages/SettingsPage.qml" line="224" />
         <source>Channel catalog in memory</source>
         <translation>Catálogo de canais na memória</translation>
     </message>
@@ -526,40 +576,142 @@
 <context>
     <name>TopBar</name>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="56" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="57" />
         <source>Switch source</source>
         <translation>Trocar fonte</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="77" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="78" />
         <source>No source</source>
         <translation>Nenhuma fonte</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="118" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="119" />
         <source>SOURCES</source>
         <translation>FONTES</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="173" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="174" />
         <source>Add source…</source>
         <translation>Adicionar fonte…</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="184" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="185" />
         <source>Loading…</source>
         <translation>Carregando…</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="187" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="188" />
         <source>%L1 channels · %L2 groups</source>
         <translation>%L1 canais · %L2 grupos</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="200" />
-        <location filename="../src/ui/qml/shell/TopBar.qml" line="211" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="233" />
+        <source>Updating… %1%</source>
+        <translation>Atualizando… %1%</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="234" />
+        <source>Restart to update</source>
+        <translation>Reiniciar para atualizar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="235" />
+        <source>Update %1</source>
+        <translation>Atualizar para %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="250" />
+        <location filename="../src/ui/qml/shell/TopBar.qml" line="261" />
         <source>Search everything</source>
         <translation>Buscar em tudo</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateInstaller</name>
+    <message>
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="37" />
+        <source>The downloaded update was not found.</source>
+        <translation>A atualização baixada não foi encontrada.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="76" />
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="107" />
+        <source>Could not start the updater.</source>
+        <translation>Não foi possível iniciar o atualizador.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="91" />
+        <source>Could not start the new version.</source>
+        <translation>Não foi possível iniciar a nova versão.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="119" />
+        <source>Could not start the installer.</source>
+        <translation>Não foi possível iniciar o instalador.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateInstaller.cpp" line="128" />
+        <source>Automatic updates are not supported on this platform.</source>
+        <translation>Atualizações automáticas não são suportadas nesta plataforma.</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateSheet</name>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="64" />
+        <source>IPTVX %1 is available</source>
+        <translation>IPTVX %1 disponível</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="69" />
+        <source>You have %1 · %2</source>
+        <translation>Você tem a %1 · %2</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="89" />
+        <source>No release notes.</source>
+        <translation>Sem notas da versão.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="134" />
+        <source>There is no automatic installer for %1 in this release. Download it from the release page.</source>
+        <translation>Esta versão não tem instalador automático para %1. Baixe pela página da versão.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="136" />
+        <source>Downloaded and verified. IPTVX will restart to finish the update.</source>
+        <translation>Baixado e verificado. O IPTVX vai reiniciar para concluir a atualização.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="137" />
+        <source>Downloading… %1%</source>
+        <translation>Baixando… %1%</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="148" />
+        <source>Release page</source>
+        <translation>Página da versão</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="154" />
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="154" />
+        <source>Later</source>
+        <translation>Depois</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="167" />
+        <source>Restart and update</source>
+        <translation>Reiniciar e atualizar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/qml/sheets/UpdateSheet.qml" line="168" />
+        <source>Download %1</source>
+        <translation>Baixar %1</translation>
     </message>
 </context>
 <context>
@@ -570,44 +722,44 @@
         <translation>Escolha um canal para começar a assistir</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="68" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="89" />
         <source>Unable to play this stream.
 %1</source>
         <translation>Não foi possível reproduzir este stream.
 %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="156" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="177" />
         <source>Previous channel</source>
         <translation>Canal anterior</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="141" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="162" />
         <source>Pause</source>
         <translation>Pausar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="141" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="162" />
         <source>Play</source>
         <translation>Reproduzir</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="157" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="178" />
         <source>Next channel</source>
         <translation>Próximo canal</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="193" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="214" />
         <source>Unmute</source>
         <translation>Ativar som</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="193" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="214" />
         <source>Mute</source>
         <translation>Silenciar</translation>
     </message>
     <message>
-        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="199" />
+        <location filename="../src/ui/qml/player/VideoPlayer.qml" line="220" />
         <source>Full screen</source>
         <translation>Tela cheia</translation>
     </message>
@@ -684,6 +836,63 @@
         <location filename="../src/ui/models/SourceListModel.cpp" line="65" />
         <source>Stalker</source>
         <translation>Stalker</translation>
+    </message>
+</context>
+<context>
+    <name>iptvx::ui::Updates</name>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="78" />
+        <source>macOS (Apple silicon)</source>
+        <translation>macOS (Apple silicon)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="78" />
+        <source>macOS (Intel)</source>
+        <translation>macOS (Intel)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="80" />
+        <source>Linux (ARM64)</source>
+        <translation>Linux (ARM64)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="80" />
+        <source>Linux (x86-64)</source>
+        <translation>Linux (x86-64)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="82" />
+        <source>Windows (x64)</source>
+        <translation>Windows (x64)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="86" />
+        <source>Unknown platform</source>
+        <translation>Plataforma desconhecida</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/Updates.cpp" line="162" />
+        <source>IPTVX cannot replace itself in this folder. The update was opened so you can install it.</source>
+        <translation>O IPTVX não consegue se substituir nesta pasta. A atualização foi aberta para você instalar.</translation>
+    </message>
+</context>
+<context>
+    <name>iptvx::update::UpdateService</name>
+    <message>
+        <location filename="../src/core/update/UpdateService.cpp" line="54" />
+        <location filename="../src/core/update/UpdateService.cpp" line="90" />
+        <source>Network unavailable.</source>
+        <translation>Rede indisponível.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateService.cpp" line="134" />
+        <source>The download is incomplete.</source>
+        <translation>O download está incompleto.</translation>
+    </message>
+    <message>
+        <location filename="../src/core/update/UpdateService.cpp" line="136" />
+        <source>The download is corrupted (checksum mismatch).</source>
+        <translation>O download está corrompido (soma de verificação diferente).</translation>
     </message>
 </context>
 </TS>
