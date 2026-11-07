@@ -19,7 +19,7 @@ QtObject {
     property color accent: "#0A64D6"
     readonly property color accentPressed: Qt.darker(accent, 1.15)
     readonly property color accentSoft: Qt.alpha(accent, dark ? 0.22 : 0.12)
-    readonly property color onAccent: "#FFFFFF"
+    readonly property color accentForeground: "#FFFFFF"
 
     // ---- Surfaces --------------------------------------------------------
     readonly property color window: dark ? "#1C1C1E" : "#FFFFFF"

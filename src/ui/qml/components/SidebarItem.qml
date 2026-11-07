@@ -3,14 +3,15 @@ import QtQuick.Controls.Basic
 import IPTVX.UI
 
 // Navigation row in the sidebar: tinted icon, label, optional trailing text.
-// The selection pill is drawn by the parent Sidebar so it can glide between
-// items; this delegate only reports `selected`.
+// Set `drawsSelection: false` when a parent draws a shared, animated
+// selection pill behind the items (see Sidebar.qml).
 AbstractButton {
     id: control
 
     property string iconName
     property string trailing
     property bool selected: false
+    property bool drawsSelection: true
     property color dotColor: "transparent"
 
     implicitHeight: 34
@@ -21,7 +22,8 @@ AbstractButton {
 
     background: Rectangle {
         radius: Theme.radiusSmall
-        color: !control.selected && control.hovered ? Theme.cardHover : "transparent"
+        color: control.selected && control.drawsSelection ? Theme.accent
+             : !control.selected && control.hovered ? Theme.cardHover : "transparent"
         Behavior on color { ColorAnimation { duration: Theme.durationFast } }
         border.width: control.visualFocus ? 2 : 0
         border.color: Theme.accent
@@ -42,13 +44,13 @@ AbstractButton {
             visible: control.iconName.length > 0
             name: control.iconName
             width: 17; height: 17
-            color: control.selected ? Theme.onAccent : Theme.accent
+            color: control.selected ? Theme.accentForeground : Theme.accent
             anchors.verticalCenter: parent.verticalCenter
         }
         Label {
             text: control.text
             font: control.selected ? Theme.headline : Theme.body
-            color: control.selected ? Theme.onAccent : Theme.textPrimary
+            color: control.selected ? Theme.accentForeground : Theme.textPrimary
             elide: Text.ElideRight
             width: control.width - 12 * 2 - 27 - trailingLabel.implicitWidth - 10
             anchors.verticalCenter: parent.verticalCenter
@@ -57,7 +59,7 @@ AbstractButton {
             id: trailingLabel
             text: control.trailing
             font: Theme.caption
-            color: control.selected ? Qt.alpha(Theme.onAccent, 0.8) : Theme.textTertiary
+            color: control.selected ? Qt.alpha(Theme.accentForeground, 0.8) : Theme.textTertiary
             anchors.verticalCenter: parent.verticalCenter
         }
     }

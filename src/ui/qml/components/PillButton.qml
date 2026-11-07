@@ -10,6 +10,7 @@ AbstractButton {
     property bool prominent: true
     property string iconName
     property color tint: Theme.accent
+    property color foreground: prominent ? Theme.accentForeground : tint
 
     implicitHeight: 38
     implicitWidth: contentRow.implicitWidth + 36
@@ -39,13 +40,13 @@ AbstractButton {
                 name: control.iconName
                 width: 15; height: 15
                 filled: control.iconName === "play"
-                color: control.prominent ? Theme.onAccent : control.tint
+                color: control.foreground
                 anchors.verticalCenter: parent.verticalCenter
             }
             Label {
                 text: control.text
                 font: Theme.headline
-                color: control.prominent ? Theme.onAccent : control.tint
+                color: control.foreground
                 anchors.verticalCenter: parent.verticalCenter
             }
         }

@@ -1,4 +1,4 @@
-set_source_files_properties(qml/theme/Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(qml/theme/Theme.qml qml/Session.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # The UI layer is a static QML module ("IPTVX.UI").
 # QML files are compiled ahead of time to C++ by qmlcachegen / qmlsc, which
@@ -22,13 +22,23 @@ qt_add_qml_module(iptvx_ui
         models/SourceListModel.h
     QML_FILES
         qml/Main.qml
+        qml/Session.qml
+        qml/Sidebar.qml
         qml/theme/Theme.qml
+        qml/pages/HomePage.qml
+        qml/pages/LiveTvPage.qml
+        qml/pages/SettingsPage.qml
+        qml/player/VideoPlayer.qml
+        qml/sheets/AddSourceSheet.qml
+        qml/components/ChannelRow.qml
+        qml/components/EmptyState.qml
         qml/components/ChannelLogo.qml
         qml/components/Icon.qml
         qml/components/PillButton.qml
         qml/components/SearchField.qml
         qml/components/SegmentedControl.qml
         qml/components/SidebarItem.qml
+        qml/components/ToggleSwitch.qml
 )
 
 target_include_directories(iptvx_ui PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -38,6 +48,7 @@ target_link_libraries(iptvx_ui
         iptvx_core
         Qt6::Quick
     PRIVATE
-        Qt6::QuickControls2)
+        Qt6::QuickControls2
+        Qt6::Multimedia)
 
 iptvx_configure_target(iptvx_ui)
