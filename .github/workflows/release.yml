@@ -85,7 +85,7 @@ jobs:
             os: windows-2022
             platform: windows
             arch: x64
-      env:
+    env:
       VERSION: ${{ needs.prepare.outputs.version }}
     steps:
       - uses: actions/checkout@v4
