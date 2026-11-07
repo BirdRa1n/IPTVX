@@ -75,9 +75,10 @@ Flickable {
 
     ColumnLayout {
         id: column
-        x: Theme.space7
+        // Readable form width, centred in the page.
+        width: Math.min(page.width - Theme.space7 * 2, 760)
+        x: Math.round((page.width - width) / 2)
         y: Theme.space6
-        width: Math.min(page.width - Theme.space7 * 2, 720)
         spacing: Theme.space6
 
         Label {
