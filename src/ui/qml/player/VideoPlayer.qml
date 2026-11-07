@@ -31,15 +31,21 @@ Rectangle {
 
     function togglePlay() { root.playing ? player.pause() : player.play() }
 
-    onSourceChanged: {
+    // Autoplay: the media source is assigned imperatively, right before
+    // play(), so playback never starts on a stale URL (a binding plus an
+    // onSourceChanged handler would race). Also covers a player created with
+    // a channel already selected (e.g. opened from the dashboard or ⌘K).
+    function load() {
         player.stop()
-        if (source.toString().length > 0)
+        player.source = root.source
+        if (root.source.toString().length > 0)
             player.play()
     }
+    onSourceChanged: load()
+    Component.onCompleted: load()
 
     MediaPlayer {
         id: player
-        source: root.source
         videoOutput: videoSurface
         audioOutput: AudioOutput { id: audio; volume: 0.9 }
     }
