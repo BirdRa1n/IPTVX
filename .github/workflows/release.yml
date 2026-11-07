@@ -85,8 +85,7 @@ jobs:
             os: windows-2022
             platform: windows
             arch: x64
-            qt_arch: win64_msvc2022_64
-    env:
+      env:
       VERSION: ${{ needs.prepare.outputs.version }}
     steps:
       - uses: actions/checkout@v4
@@ -106,6 +105,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install Qt
+        if: matrix.platform != 'windows'
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
@@ -115,6 +115,12 @@ jobs:
           # Recent aqtinstall understands the Qt 6.10+ repository layout.
           aqtversion: ">=3.3.0"
           cache: true
+
+      # aqtinstall does not support the per-toolchain Windows repository
+      # layout used since Qt 6.11, so install from download.qt.io directly.
+      - name: Install Qt (Windows)
+        if: matrix.platform == 'windows'
+        run: python tools/ci/install-qt.py --host windows_x86 --version ${{ env.QT_VERSION }} --toolchain msvc2022_64 --arch win64_msvc2022_64 --modules qtmultimedia --out "${{ runner.temp }}/Qt"
 
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
@@ -133,12 +139,17 @@ jobs:
       - name: Build
         run: cmake --build build --parallel
 
-      - name: Keep only the SQLite SQL driver
+      - name: Drop unused Qt plugins
+        if: matrix.platform != 'windows' # package.ps1 handles Windows
         shell: bash
         # IPTVX only uses SQLite. The other drivers (PostgreSQL, ODBC, Mimer…)
         # depend on client libraries that are not installed and would break
         # or bloat the deployment tools' output.
-        run: find "$QT_ROOT_DIR/plugins/sqldrivers" -type f ! -iname '*sqlite*' -delete
+        # The GStreamer media backend is dropped too: IPTVX plays through the
+        # FFmpeg backend, and GStreamer's libraries are not on the runners.
+        run: |
+          find "$QT_ROOT_DIR/plugins/sqldrivers" -type f ! -iname '*sqlite*' -delete
+          find "$QT_ROOT_DIR/plugins/multimedia" -type f -iname '*gstreamer*' -delete || true
 
       - name: Package (macOS)
         if: matrix.platform == 'macos'

@@ -46,12 +46,19 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install Qt
+        if: runner.os != 'Windows'
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{ env.QT_VERSION }}
           modules: qtmultimedia
           aqtversion: ">=3.3.0"
           cache: true
+
+      # aqtinstall does not support the per-toolchain Windows repository layout
+      # used since Qt 6.11 (see tools/ci/install-qt.py).
+      - name: Install Qt (Windows)
+        if: runner.os == 'Windows'
+        run: python tools/ci/install-qt.py --host windows_x86 --version ${{ env.QT_VERSION }} --toolchain msvc2022_64 --arch win64_msvc2022_64 --modules qtmultimedia --out "${{ runner.temp }}/Qt"
 
       - name: Install CMake and Ninja
         uses: lukka/get-cmake@latest
