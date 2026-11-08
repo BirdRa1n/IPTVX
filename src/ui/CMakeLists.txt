@@ -40,6 +40,7 @@ qt_add_qml_module(iptvx_ui
         qml/components/EmptyState.qml
         qml/components/ChannelLogo.qml
         qml/components/Icon.qml
+        qml/components/LazyPopup.qml
         qml/components/PillButton.qml
         qml/components/SearchField.qml
         qml/components/SegmentedControl.qml

@@ -139,8 +139,25 @@ ApplicationWindow {
                         window.width - Theme.railWidth, window.height - window.topBarHeight)
     }
 
-    AddSourceSheet { id: addSheet; objectName: "addSourceSheet" }
-    UpdateSheet { id: updateSheet; objectName: "updateSheet" }
+    // Sheets and the palette are created on demand and destroyed when closed.
+    function openAddSource() { addSheet.open() }
+    function openPalette() { commandPalette.open() }
+    function openUpdate() { updateSheet.open() }
+
+    LazyPopup {
+        id: addSheet
+        sourceComponent: Component { AddSourceSheet {} }
+    }
+    LazyPopup {
+        id: updateSheet
+        sourceComponent: Component { UpdateSheet {} }
+    }
+    LazyPopup {
+        id: commandPalette
+        sourceComponent: Component {
+            CommandPalette { onAddSourceRequested: addSheet.open() }
+        }
+    }
 
     // Check GitHub for a newer release shortly after launch; open the sheet
     // automatically the first time one is found in this session.
@@ -151,11 +168,6 @@ ApplicationWindow {
             if (Updates.state === Updates.Available && !Updates.dismissed && !updateSheet.opened)
                 updateSheet.open()
         }
-    }
-    CommandPalette {
-        id: commandPalette
-        objectName: "commandPalette"
-        onAddSourceRequested: addSheet.open()
     }
 
     // Global shortcuts

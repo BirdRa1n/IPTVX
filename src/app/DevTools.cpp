@@ -152,13 +152,13 @@ void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
     if (openPalette && !engine.rootObjects().isEmpty()) {
         const QString query = palette;
         // Wait for the seeded source to load before typing the query.
-        QTimer::singleShot(800, engine.rootObjects().constFirst(), [&engine, query] {
-            QObject *popup = engine.rootObjects().constFirst()->findChild<QObject *>(u"commandPalette"_s);
-            if (!popup)
-                return;
-            QMetaObject::invokeMethod(popup, "open");
-            if (QObject *field = popup->findChild<QObject *>(u"paletteQuery"_s))
-                field->setProperty("text", query);
+        QObject *root = engine.rootObjects().constFirst();
+        QTimer::singleShot(800, root, [root, query] {
+            QMetaObject::invokeMethod(root, "openPalette");
+            // The palette is created on demand: look it up after opening.
+            const auto fields = root->findChildren<QObject *>(u"paletteQuery"_s);
+            if (!fields.isEmpty())
+                fields.constFirst()->setProperty("text", query);
         });
     }
 
@@ -171,10 +171,7 @@ void DevOptions::applyAfterLoad(QQmlApplicationEngine &engine) const
         window->resize(windowSize);
 
     if (sheet == u"add"_s) {
-        QTimer::singleShot(600, window, [window] {
-            if (QObject *popup = window->findChild<QObject *>(u"addSourceSheet"_s))
-                QMetaObject::invokeMethod(popup, "open");
-        });
+        QTimer::singleShot(600, window, [window] { QMetaObject::invokeMethod(window, "openAddSource"); });
     }
 
     if (screenshotPath.isEmpty())
