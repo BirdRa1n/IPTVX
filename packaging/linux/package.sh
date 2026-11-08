@@ -39,10 +39,43 @@ export EXTRA_PLATFORM_PLUGINS
 echo "Extra platform plugins: ${EXTRA_PLATFORM_PLUGINS:-none}"
 export OUTPUT="$OUT/IPTVX-$VERSION-linux-$ARCH.AppImage"
 
+# Phase 1: deploy libraries, plugins and QML modules into the AppDir.
 "linuxdeploy-$ARCH.AppImage" \
     --appdir "$APPDIR" \
     --desktop-file "$APPDIR/usr/share/applications/io.github.birdra1n.iptvx.desktop" \
     --icon-file "$APPDIR/usr/share/icons/hicolor/256x256/apps/io.github.birdra1n.iptvx.png" \
-    --plugin qt \
-    --output appimage
-echo "Created $OUTPUT"
+    --plugin qt
+
+# Phase 2: prune what IPTVX never loads (other Qt Quick Controls styles,
+# widget styles, particles, vector images…). IPTVX uses the Basic style only.
+U="$APPDIR/usr"
+for s in FluentWinUI3 Fusion IOS Imagine Macos MacOS Material Native Universal; do
+    rm -f "$U/lib/libQt6QuickControls2$s".so* "$U/lib/libQt6QuickControls2${s}StyleImpl".so*
+done
+rm -f "$U"/lib/libQt6QuickNativeStyle.so* "$U"/lib/libQt6QuickParticles.so* \
+      "$U"/lib/libQt6QuickShapesDesignHelpers.so* "$U"/lib/libQt6QuickVectorImage*.so*
+for d in FluentWinUI3 Fusion Imagine Material Native Universal iOS macOS designer; do
+    rm -rf "$U/qml/QtQuick/Controls/$d"
+done
+rm -rf "$U/qml/QtQuick/NativeStyle" "$U/qml/QtQuick/Particles" "$U/qml/QtQuick/VectorImage" \
+       "$U/qml/QtQuick/Shapes/DesignHelpers" "$U/plugins/styles"
+find "$U/plugins" "$U/qml" -type f -name '*.so' \( -iname '*fluentwinui3*' -o -iname '*fusion*' \
+    -o -iname '*imagine*' -o -iname '*material*' -o -iname '*universal*' -o -iname '*nativestyle*' \
+    -o -iname '*particles*' -o -iname '*vectorimage*' -o -iname '*designhelpers*' \) -delete
+find "$U/plugins/sqldrivers" -type f ! -iname '*sqlite*' -delete 2>/dev/null || true
+
+# Safety net: no shipped ELF may miss a library it links against.
+missing=0
+while IFS= read -r -d '' so; do
+    if LD_LIBRARY_PATH="$U/lib" ldd "$so" 2>/dev/null | grep -q "not found"; then
+        echo "error: $so has unresolved libraries:" >&2
+        LD_LIBRARY_PATH="$U/lib" ldd "$so" | grep "not found" >&2
+        missing=1
+    fi
+done < <(find "$U/bin" "$U/lib" "$U/plugins" "$U/qml" -type f \( -name '*.so*' -o -perm -u+x \) -print0)
+[ "$missing" -eq 0 ] || exit 1
+
+# Phase 3: build the AppImage. xz gives the smallest download.
+export LDAI_COMP=xz
+"linuxdeploy-$ARCH.AppImage" --appdir "$APPDIR" --output appimage
+echo "Created $OUTPUT ($(du -h "$OUTPUT" | cut -f1))"
