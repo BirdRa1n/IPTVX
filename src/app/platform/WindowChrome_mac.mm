@@ -3,7 +3,10 @@
 
 #include <QWindow>
 
+#include <functional>
+
 #import <AppKit/AppKit.h>
+#import <QuartzCore/CAMetalLayer.h>
 
 namespace iptvx::app {
 
@@ -15,6 +18,19 @@ QRectF styleWindowChrome(QWindow *window)
     NSWindow *nsWindow = view.window;
     if (!nsWindow)
         return {};
+
+    // Memory: Qt's Metal swapchain keeps 3 drawables. On a Retina window each
+    // is width × height × 4 bytes (≈16 MB for 1280×800 pt), so dropping to
+    // double buffering saves one full-window buffer (measured: footprint
+    // 104 → 87 MB). The setting survives swapchain resizes. The Metal layer
+    // is a sublayer of Qt's container layer, hence the walk.
+    std::function<void(CALayer *)> limitDrawables = [&](CALayer *layer) {
+        if ([layer isKindOfClass:[CAMetalLayer class]])
+            static_cast<CAMetalLayer *>(layer).maximumDrawableCount = 2;
+        for (CALayer *sublayer in layer.sublayers)
+            limitDrawables(sublayer);
+    };
+    limitDrawables(view.layer);
 
     nsWindow.titleVisibility = NSWindowTitleHidden;
     nsWindow.titlebarAppearsTransparent = YES;

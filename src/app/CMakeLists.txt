@@ -7,7 +7,7 @@ qt_add_executable(iptvx
 if(APPLE)
     enable_language(OBJCXX)
     target_sources(iptvx PRIVATE platform/WindowChrome_mac.mm)
-    target_link_libraries(iptvx PRIVATE "-framework AppKit")
+    target_link_libraries(iptvx PRIVATE "-framework AppKit" "-framework QuartzCore")
 else()
     target_sources(iptvx PRIVATE platform/WindowChrome.cpp)
 endif()
