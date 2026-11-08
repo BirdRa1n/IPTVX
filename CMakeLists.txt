@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.21)
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version")
 
 project(IPTVX
-    VERSION 0.1.0
+    VERSION 0.1.1
     DESCRIPTION "A fast, memory-efficient IPTV player built with Qt and C++"
     HOMEPAGE_URL "https://github.com/BirdRa1n/IPTVX"
     LANGUAGES CXX)
