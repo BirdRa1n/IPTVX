@@ -1,4 +1,5 @@
 pragma Singleton
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtCore
@@ -20,10 +21,21 @@ QtObject {
     // The one media player of the app. It outlives pages, so playback keeps
     // going while the user browses; the Live TV player and the mini player
     // only borrow its video output (one decoder, one set of buffers).
-    property MediaPlayer player: MediaPlayer {
-        audioOutput: AudioOutput { volume: 0.9 }
+    //
+    // Memory: it is created on the first play() and destroyed by stop(), so
+    // the FFmpeg backend, its threads and frame buffers only exist while
+    // something is (or was just) playing.
+    property MediaPlayer player: null
+    readonly property bool isPlaying: player !== null && player.playbackState === MediaPlayer.PlayingState
+
+    property Component playerComponent: Component {
+        MediaPlayer {
+            audioOutput: AudioOutput { volume: session.volume; muted: session.muted }
+        }
     }
-    readonly property bool isPlaying: player.playbackState === MediaPlayer.PlayingState
+    // Audio settings live here so they survive the player being recreated.
+    property real volume: 0.9
+    property bool muted: false
 
     // Set when the user closes the mini player; cleared on the next play().
     property bool miniPlayerDismissed: false
@@ -37,6 +49,8 @@ QtObject {
         lastChannelName = item.name
         lastChannelUrl = item.url
         miniPlayerDismissed = false
+        if (player === null)
+            player = playerComponent.createObject(session)
         // Assign the source right before play(): no binding to race with.
         player.stop()
         player.source = item.url
@@ -44,18 +58,25 @@ QtObject {
     }
 
     function togglePlay() {
+        if (player === null)
+            return
         if (isPlaying)
             player.pause()
         else if (player.source.toString().length > 0)
             player.play()
     }
 
-    // Stops playback and forgets the current channel (mini player close).
+    // Stops playback, forgets the current channel and releases the player
+    // (mini player close).
     function stop() {
-        player.stop()
-        player.source = ""
         nowPlaying = null
         playingRow = -1
+        if (player !== null) {
+            const old = player
+            player = null
+            old.stop()
+            old.destroy()
+        }
     }
 
     // Plays the channel with catalog number `number` (1-based), clearing

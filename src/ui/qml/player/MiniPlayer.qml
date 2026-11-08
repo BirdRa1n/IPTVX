@@ -42,7 +42,7 @@ Item {
     Behavior on opacity { NumberAnimation { duration: Theme.durationMedium; easing.type: Easing.OutCubic } }
     Behavior on scale { NumberAnimation { duration: Theme.durationSlow; easing.type: Easing.OutBack; easing.overshoot: Theme.springOvershoot } }
 
-    onShownChanged: if (shown) Session.player.videoOutput = surface
+    onShownChanged: if (shown && Session.player) Session.player.videoOutput = surface
 
     // Soft shadow (stacked translucent rects: no offscreen layer, so no
     // extra GPU memory while video frames update).
@@ -83,7 +83,7 @@ Item {
             anchors.centerIn: parent
             width: 56; height: 56
             radius: Theme.radiusLarge
-            visible: !Session.player.hasVideo
+            visible: Session.player === null || !Session.player.hasVideo
             name: Session.nowPlaying ? Session.nowPlaying.name : ""
             source: Session.nowPlaying ? Session.nowPlaying.logo : ""
         }
@@ -106,8 +106,9 @@ Item {
         BusyIndicator {
             anchors.centerIn: parent
             width: 36; height: 36
-            running: Session.player.mediaStatus === MediaPlayer.LoadingMedia
-                     || Session.player.mediaStatus === MediaPlayer.BufferingMedia
+            running: Session.player !== null
+                     && (Session.player.mediaStatus === MediaPlayer.LoadingMedia
+                         || Session.player.mediaStatus === MediaPlayer.BufferingMedia)
             visible: running
         }
 

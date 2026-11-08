@@ -18,13 +18,14 @@ Rectangle {
 
     // Playback lives in Session.player (app-wide); this view borrows its
     // video output while it exists.
+    // Session.player is created lazily (null until the first play).
     readonly property MediaPlayer player: Session.player
-    readonly property AudioOutput audio: Session.player.audioOutput
     readonly property bool playing: Session.isPlaying
-    readonly property bool hasSource: player.source.toString().length > 0
-    readonly property bool loading: player.mediaStatus === MediaPlayer.LoadingMedia
-                                    || player.mediaStatus === MediaPlayer.BufferingMedia
-                                    || player.mediaStatus === MediaPlayer.StalledMedia
+    readonly property bool hasSource: player !== null && player.source.toString().length > 0
+    readonly property bool loading: player !== null
+                                    && (player.mediaStatus === MediaPlayer.LoadingMedia
+                                        || player.mediaStatus === MediaPlayer.BufferingMedia
+                                        || player.mediaStatus === MediaPlayer.StalledMedia)
 
     signal previousRequested()
     signal nextRequested()
@@ -37,8 +38,14 @@ Rectangle {
     function togglePlay() { Session.togglePlay() }
 
     // Take the video output when shown (the mini player releases it as it
-    // hides because the Live page is current again).
-    Component.onCompleted: player.videoOutput = videoSurface
+    // hides because the Live page is current again), and whenever a new
+    // player is created while this view is on screen.
+    function attach() {
+        if (player !== null)
+            player.videoOutput = videoSurface
+    }
+    Component.onCompleted: attach()
+    onPlayerChanged: attach()
 
     VideoOutput {
         id: videoSurface
@@ -85,8 +92,8 @@ Rectangle {
     Label {
         anchors.centerIn: parent
         width: parent.width - 64
-        visible: root.player.error !== MediaPlayer.NoError
-        text: qsTr("Unable to play this stream.\n%1").arg(root.player.errorString)
+        visible: root.player !== null && root.player.error !== MediaPlayer.NoError
+        text: qsTr("Unable to play this stream.\n%1").arg(root.player ? root.player.errorString : "")
         color: Theme.videoText
         font: Theme.body
         horizontalAlignment: Text.AlignHCenter
@@ -209,10 +216,10 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 4
                 BarButton {
-                    iconName: root.audio.muted ? "mute" : "volume"
+                    iconName: Session.muted ? "mute" : "volume"
                     filledIcon: false
-                    Accessible.name: root.audio.muted ? qsTr("Unmute") : qsTr("Mute")
-                    onClicked: root.audio.muted = !root.audio.muted
+                    Accessible.name: Session.muted ? qsTr("Unmute") : qsTr("Mute")
+                    onClicked: Session.muted = !Session.muted
                 }
                 BarButton {
                     iconName: "fullscreen"
@@ -228,9 +235,9 @@ Rectangle {
     focus: true
     Keys.onSpacePressed: root.togglePlay()
     Keys.onPressed: event => {
-        if (event.key === Qt.Key_M) { root.audio.muted = !root.audio.muted; event.accepted = true }
+        if (event.key === Qt.Key_M) { Session.muted = !Session.muted; event.accepted = true }
         else if (event.key === Qt.Key_F) { root.fullScreenRequested(); event.accepted = true }
-        else if (event.key === Qt.Key_Up) { root.audio.volume = Math.min(1, root.audio.volume + 0.05); event.accepted = true }
-        else if (event.key === Qt.Key_Down) { root.audio.volume = Math.max(0, root.audio.volume - 0.05); event.accepted = true }
+        else if (event.key === Qt.Key_Up) { Session.volume = Math.min(1, Session.volume + 0.05); event.accepted = true }
+        else if (event.key === Qt.Key_Down) { Session.volume = Math.max(0, Session.volume - 0.05); event.accepted = true }
     }
 }
