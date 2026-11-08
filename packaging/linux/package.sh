@@ -75,7 +75,12 @@ while IFS= read -r -d '' so; do
 done < <(find "$U/bin" "$U/lib" "$U/plugins" "$U/qml" -type f \( -name '*.so*' -o -perm -u+x \) -print0)
 [ "$missing" -eq 0 ] || exit 1
 
-# Phase 3: build the AppImage. xz gives the smallest download.
-export LDAI_COMP=xz
-"linuxdeploy-$ARCH.AppImage" --appdir "$APPDIR" --output appimage
+# Phase 3: build the AppImage (squashfs + zstd, appimagetool's only
+# compressor). Pass the desktop entry and PNG icon again so the AppDir root
+# gets a PNG .DirIcon, not the scalable SVG.
+"linuxdeploy-$ARCH.AppImage" \
+    --appdir "$APPDIR" \
+    --desktop-file "$APPDIR/usr/share/applications/io.github.birdra1n.iptvx.desktop" \
+    --icon-file "$APPDIR/usr/share/icons/hicolor/256x256/apps/io.github.birdra1n.iptvx.png" \
+    --output appimage
 echo "Created $OUTPUT ($(du -h "$OUTPUT" | cut -f1))"
